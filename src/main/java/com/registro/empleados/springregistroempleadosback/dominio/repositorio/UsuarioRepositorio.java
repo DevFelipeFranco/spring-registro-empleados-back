@@ -1,11 +1,11 @@
 package com.registro.empleados.springregistroempleadosback.dominio.repositorio;
 
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.UsuarioModelo;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 
 import java.util.List;
 
 public interface UsuarioRepositorio {
 
-    List<UsuarioModelo> listadoUsuarios();
-    UsuarioModelo registrarUsuario(UsuarioModelo usuarioModelo);
+    List<Usuario> listadoUsuarios();
+    Usuario registrarUsuario(Usuario usuario);
 }

@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(setterPrefix = "con")
-public class TokenModelo {
+public class Rol {
 
-    private Long idToken;
-    private Date fechaExpiracion;
-    private String token;
-    private UsuarioModelo usuarioModelo;
+    private Long idRol;
+    private String descripcion;
+//    private List<UsuarioModelo> lstUsuarioRol;
 }

@@ -33,9 +33,7 @@ public class UsuarioEntidad implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
 
-    @JsonManagedReference
-    @JsonIgnoreProperties("usuarios")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
             name = "USUARIO_ROL",
             joinColumns = @JoinColumn(
@@ -45,7 +43,4 @@ public class UsuarioEntidad implements Serializable {
                     name = "ID_ROL",
                     referencedColumnName = "ID_ROL"))
     private List<RolEntidad> roles;
-
-    @OneToOne(mappedBy = "usuarioEntidad")
-    private TokenEntidad tokenEntidad;
 }

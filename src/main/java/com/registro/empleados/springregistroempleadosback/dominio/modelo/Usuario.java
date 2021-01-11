@@ -1,6 +1,5 @@
 package com.registro.empleados.springregistroempleadosback.dominio.modelo;
 
-import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.TokenEntidad;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(setterPrefix = "con")
-public class UsuarioModelo {
+public class Usuario {
 
     private Long idUsuario;
     private String usuario;
@@ -21,6 +20,5 @@ public class UsuarioModelo {
     private String email;
     private Boolean estado;
     private Date fechaCreacion;
-    private List<RolModelo> lstUsuarioRol;
-    private TokenModelo tokenModelo;
+    private List<Rol> roles;
 }

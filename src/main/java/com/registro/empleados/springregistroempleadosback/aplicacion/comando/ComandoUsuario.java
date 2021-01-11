@@ -1,4 +1,4 @@
-package com.registro.empleados.springregistroempleadosback.dominio.modelo;
+package com.registro.empleados.springregistroempleadosback.aplicacion.comando;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(setterPrefix = "con")
-public class UsuarioRolModelo {
+public class ComandoUsuario {
 
-    private UsuarioModelo usuarioModelo;
-    private RolModelo rolModelo;
+    private String usuario;
+    private String clave;
+    private String email;
 }

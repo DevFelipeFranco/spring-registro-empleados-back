@@ -26,17 +26,6 @@ public class RolEntidad implements Serializable {
 
     private String descripcion;
 
-    @JsonManagedReference
-    @JsonIgnoreProperties("rolEntidad")
-//    @OneToMany(mappedBy = "rolEntidad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "USUARIO_ROL",
-            joinColumns = @JoinColumn(
-                    name = "ID_ROL",
-                    referencedColumnName = "ID_ROL"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "ID_USUARIO",
-                    referencedColumnName = "ID_USUARIO"))
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<UsuarioEntidad> usuarios;
 }

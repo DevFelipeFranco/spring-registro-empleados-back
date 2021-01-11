@@ -1,6 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.UsuarioModelo;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.UsuarioRepositorio;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
@@ -13,13 +13,13 @@ import java.util.List;
 public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, Long>, UsuarioRepositorio {
 
     @Override
-    default List<UsuarioModelo> listadoUsuarios() {
+    default List<Usuario> listadoUsuarios() {
         return UsuarioTransformador.listadoUsuarioEntidadToModel(findAll());
     }
 
     @Override
-    default UsuarioModelo registrarUsuario(UsuarioModelo usuarioModelo) {
-        UsuarioEntidad usuarioEntidad = UsuarioTransformador.usuarioModeloToEntidad(usuarioModelo);
-        return UsuarioTransformador.usuarioEntidadToModel(save(usuarioEntidad));
+    default Usuario registrarUsuario(Usuario usuario) {
+        UsuarioEntidad usuarioEntidad = UsuarioTransformador.usuarioModeloToEntidad(usuario);
+        return UsuarioTransformador.usuarioEntidadToModel(saveAndFlush(usuarioEntidad));
     }
 }
