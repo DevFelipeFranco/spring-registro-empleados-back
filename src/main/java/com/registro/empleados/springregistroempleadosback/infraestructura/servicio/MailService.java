@@ -1,0 +1,10 @@
+package com.registro.empleados.springregistroempleadosback.infraestructura.servicio;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class MailService {
+
+}

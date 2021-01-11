@@ -14,7 +14,7 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
 
     @Override
     default List<Usuario> listadoUsuarios() {
-        return UsuarioTransformador.listadoUsuarioEntidadToModel(findAll());
+        return null;
     }
 
     @Override
