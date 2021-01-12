@@ -1,5 +1,7 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
@@ -11,9 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -31,13 +31,12 @@ public class AuthService {
                 .conEmail(usuarioModelo.getEmail())
                 .conFechaCreacion(new Date())
                 .conEstado(false)
-                .conRoles(Arrays.asList(new Rol(2L, "Jugador")))
+                .conRoles(Collections.singletonList(new Rol(2L, "Jugador")))
                 .build();
-        Usuario usuarioCreado = usuarioRepositorioMySQL.registrarUsuario(usuario);
 
-        String token = generarVerificacionToken(usuario);
-        enviarEmail(token, usuarioModelo.getEmail());
-        return usuarioCreado;
+        Token token = generarVerificacionToken(usuario);
+        enviarEmail(token.getToken(), usuarioModelo.getEmail());
+        return token.getUsuario();
     }
 
     private void enviarEmail(String token, String email) {
@@ -47,7 +46,7 @@ public class AuthService {
                 "http://localhost:8081/api/auth/accountVerification/" + token));
     }
 
-    private String generarVerificacionToken(Usuario usuario) {
+    private Token generarVerificacionToken(Usuario usuario) {
         String token = UUID.randomUUID().toString();
         Token verificacionToken = Token.builder()
                 .conToken(token)
@@ -55,8 +54,19 @@ public class AuthService {
                 .conFechaExpiracion(new Date())
                 .build();
 
-        tokenRepositorioMySQL.registrarToken(verificacionToken);
-        return token;
+        return tokenRepositorioMySQL.registrarToken(verificacionToken);
     }
 
+    public void verificarCuenta(String token) {
+        Optional<Token> verificacionToken = tokenRepositorioMySQL.buscarToken(token);
+        verificacionToken.orElseThrow(() -> new NoExisteTokenException("Token Invalido"));
+        buscarUsaurioYHabilitar(verificacionToken.get());
+    }
+
+    private void buscarUsaurioYHabilitar(Token token) {
+        String usuario = token.getUsuario().getUsuario();
+        Usuario usuarioEncontrado = usuarioRepositorioMySQL.buscarUsuario(usuario).orElseThrow(() -> new UsuarioNoExisteException("No se encontro el usuario con el nombre: " + usuario));
+        usuarioEncontrado.setEstado(true);
+        usuarioRepositorioMySQL.registrarUsuario(usuarioEncontrado);
+    }
 }

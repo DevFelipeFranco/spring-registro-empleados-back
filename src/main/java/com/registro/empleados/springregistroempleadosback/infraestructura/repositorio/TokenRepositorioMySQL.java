@@ -7,6 +7,8 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.transf
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TokenRepositorioMySQL extends JpaRepository<TokenEntidad, Long>, TokenRepositorio {
 
@@ -15,4 +17,11 @@ public interface TokenRepositorioMySQL extends JpaRepository<TokenEntidad, Long>
         TokenEntidad tokenEntidad = TokenTransformador.tokenToTokenEntidad(token);
         return TokenTransformador.tokenEntidadToToken(save(tokenEntidad));
     }
+
+    @Override
+    default Optional<Token> buscarToken(String token) {
+        return TokenTransformador.tokenEntidadOptToTokenOpt(findByToken(token));
+    }
+
+    Optional<TokenEntidad> findByToken(String token);
 }

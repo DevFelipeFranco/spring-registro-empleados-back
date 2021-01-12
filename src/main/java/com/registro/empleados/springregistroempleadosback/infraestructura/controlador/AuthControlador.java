@@ -5,6 +5,7 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.M
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.AuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +25,11 @@ public class AuthControlador {
     @PostMapping(value = "signup")
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody ComandoUsuario comandoUsuario) {
         return ResponseEntity.ok(manejadorRegistrarUsuario.ejecutar(comandoUsuario));
+    }
+
+    @GetMapping(value = "/accountVerification/{token}")
+    public ResponseEntity<String> verificacionCuenta(@PathVariable("token") String token) {
+        authService.verificarCuenta(token);
+        return new ResponseEntity<>("Cuenta activada con exito", HttpStatus.OK);
     }
 }

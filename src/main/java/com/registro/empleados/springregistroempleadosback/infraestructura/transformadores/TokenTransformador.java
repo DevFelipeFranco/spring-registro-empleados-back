@@ -3,6 +3,8 @@ package com.registro.empleados.springregistroempleadosback.infraestructura.trans
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.TokenEntidad;
 
+import java.util.Optional;
+
 public final class TokenTransformador {
 
     public static TokenEntidad tokenToTokenEntidad(Token token) {
@@ -21,5 +23,9 @@ public final class TokenTransformador {
                 .conFechaExpiracion(tokenEntidad.getFechaExpiracion())
                 .conUsuario(UsuarioTransformador.usuarioEntidadToModel(tokenEntidad.getUsuarioEntidad()))
                 .build();
+    }
+
+    public static Optional<Token> tokenEntidadOptToTokenOpt(Optional<TokenEntidad> tokenEntidad) {
+        return tokenEntidad.map(TokenTransformador::tokenEntidadToToken);
     }
 }

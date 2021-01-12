@@ -4,6 +4,7 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class UsuarioTransformador {
@@ -30,6 +31,10 @@ public final class UsuarioTransformador {
                 .conFechaCreacion(usuarioEntidad.getFechaCreacion())
                 .conRoles(RolTransformador.rolesEntidadToRoles(usuarioEntidad.getRoles()))
                 .build();
+    }
+
+    public static Optional<Usuario> usuarioEntidadOptToModelOpt(Optional<UsuarioEntidad> usuarioEntidad) {
+        return usuarioEntidad.map(UsuarioTransformador::usuarioEntidadToModel);
     }
 
     public static List<Usuario> listadoUsuarioEntidadToModel(List<UsuarioEntidad> usuariosEntidad) {
