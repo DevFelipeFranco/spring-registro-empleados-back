@@ -5,11 +5,17 @@ import com.registro.empleados.springregistroempleadosback.dominio.excepciones.Us
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
+import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.NotificacionEmail;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
+import com.registro.empleados.springregistroempleadosback.infraestructura.security.JwtProvider;
 import com.registro.empleados.springregistroempleadosback.infraestructura.servicio.MailService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +29,8 @@ public class AuthService {
     private final TokenRepositorioMySQL tokenRepositorioMySQL;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     public Usuario registrarUsuario(Usuario usuarioModelo) {
         Usuario usuario = Usuario.builder()
@@ -68,5 +76,15 @@ public class AuthService {
         Usuario usuarioEncontrado = usuarioRepositorioMySQL.buscarUsuario(usuario).orElseThrow(() -> new UsuarioNoExisteException("No se encontro el usuario con el nombre: " + usuario));
         usuarioEncontrado.setEstado(true);
         usuarioRepositorioMySQL.registrarUsuario(usuarioEncontrado);
+    }
+
+    public Autenticacion login(Usuario usuario) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsuario(),
+                usuario.getClave()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generarToken(authenticate);
+
+        return new Autenticacion(token, usuario.getUsuario());
+
     }
 }

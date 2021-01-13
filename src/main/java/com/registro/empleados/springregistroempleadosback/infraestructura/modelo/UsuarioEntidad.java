@@ -25,6 +25,7 @@ public class UsuarioEntidad implements Serializable {
     @Column(name = "ID_USUARIO")
     private Long idUsuario;
 
+    @Column(name = "USUARIO", unique = true)
     private String usuario;
     private String clave;
     private String correoElectronico;
