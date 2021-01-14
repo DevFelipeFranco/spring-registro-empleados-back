@@ -1,6 +1,8 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.security;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.CertificadoException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.util.Optional;
 
 @Service
 public class JwtProvider {
@@ -41,6 +44,31 @@ public class JwtProvider {
             return (PrivateKey) keyStore.getKey("https-registerPerson", "felipefranco".toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
             throw new CertificadoException("Ocurrio una excepcion mientras recuperaba la llave privada del keystore", e);
+        }
+    }
+
+    public boolean validarToken(String jwt) {
+        Jwts.parser().setSigningKey(getLlavePublica())
+                .parseClaimsJws(jwt);
+        return true;
+    }
+
+    private PublicKey getLlavePublica() {
+        try {
+            return keyStore.getCertificate("https-registerPerson").getPublicKey();
+        } catch (KeyStoreException e) {
+            throw new CertificadoException("Ocurrio una excepcion mientras recuperaba la llave publica", e);        }
+    }
+
+    public Optional<String> getSubDelToken(String token) {
+        try {
+            return Optional.ofNullable(Jwts.parser()
+                    .setSigningKey(getLlavePublica())
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject());
+        } catch (Exception e) {
+            throw new CertificadoException("Ocurrio un error obteniendo el cuerpo de JWt", e);
         }
     }
 }
