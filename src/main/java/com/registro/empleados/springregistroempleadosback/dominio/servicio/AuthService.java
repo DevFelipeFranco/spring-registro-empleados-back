@@ -5,6 +5,7 @@ import com.registro.empleados.springregistroempleadosback.dominio.excepciones.Us
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
+import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.NotificacionEmail;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
@@ -78,13 +79,13 @@ public class AuthService {
         usuarioRepositorioMySQL.registrarUsuario(usuarioEncontrado);
     }
 
-    public Autenticacion login(Usuario usuario) {
+    public Optional<Autenticacion> login(Usuario usuario) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsuario(),
                 usuario.getClave()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generarToken(authenticate);
 
-        return new Autenticacion(token, usuario.getUsuario());
+        return UsuarioTransformer.usuarioToAutenticacion(token, usuarioRepositorioMySQL.buscarUsuario(usuario.getUsuario()));
 
     }
 }

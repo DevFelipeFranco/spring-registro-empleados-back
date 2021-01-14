@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/api/auth")
 @AllArgsConstructor
@@ -37,7 +39,7 @@ public class AuthControlador {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Autenticacion> login(@RequestBody ComandoUsuario comandoUsuario) {
+    public ResponseEntity<Optional<Autenticacion>> login(@RequestBody ComandoUsuario comandoUsuario) {
         return ResponseEntity.ok(manejadorLogin.ejecutar(comandoUsuario));
     }
 }
