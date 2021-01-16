@@ -1,10 +1,8 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.RecargarToken;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.ActualizarToken;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.RecargarTokenEntidad;
-import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.TokenEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ActualizarTokenTransformador;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.TokenTransformador;
 import org.springframework.data.jpa.repository.JpaRepository;
