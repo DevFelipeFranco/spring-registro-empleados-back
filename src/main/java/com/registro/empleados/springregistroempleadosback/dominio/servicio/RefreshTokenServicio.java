@@ -3,13 +3,11 @@ package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.RecargarToken;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.RecargarTokenRepositorioMySQL;
-import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -22,7 +20,7 @@ public class RefreshTokenServicio {
     public RecargarToken generarRefreshToken() {
         RecargarToken recargarToken = RecargarToken.builder()
                 .token(UUID.randomUUID().toString())
-                .fechaCreacion(Instant.now())
+                .fechaCreacion(LocalDateTime.now())
                 .build();
 
         return recargarTokenRepositorioMySQL.guardarRefreshToken(recargarToken);

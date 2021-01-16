@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "RECARGAR_TOKEN", schema = "DB_REGISTRO_EMPLEADOS")
@@ -23,5 +23,7 @@ public class RecargarTokenEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRecargarToken;
     private String token;
-    private Instant fechaCreacion;
+
+    @Column(name = "FECHA_CREACION", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaCreacion;
 }

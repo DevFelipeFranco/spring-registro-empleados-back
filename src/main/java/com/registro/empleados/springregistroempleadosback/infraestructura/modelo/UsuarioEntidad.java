@@ -1,12 +1,10 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,8 +29,8 @@ public class UsuarioEntidad implements Serializable {
     private String correoElectronico;
     private String estado;
 
-    @Temporal(TemporalType.DATE)
-    private Date fechaCreacion;
+    @Column(name = "FECHA_CREACION", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaCreacion;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(

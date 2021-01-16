@@ -3,7 +3,7 @@ package com.registro.empleados.springregistroempleadosback.dominio.transformador
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public final class UsuarioTransformer {
@@ -12,7 +12,7 @@ public final class UsuarioTransformer {
         return usuario.map(u -> Autenticacion.builder()
                 .tokenAutenticacion(token)
                 .refreshToken(recargarToken)
-                .expiresAt(Instant.now().plusMillis(expiracionToken))
+                .expiresAt(LocalDateTime.now().plusSeconds(expiracionToken))
                 .usuario(UsuarioTransformer.usuarioSinClave(u))
                 .build());
 

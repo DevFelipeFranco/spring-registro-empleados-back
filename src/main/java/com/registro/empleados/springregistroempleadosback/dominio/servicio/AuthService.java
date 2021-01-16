@@ -21,9 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,7 +43,7 @@ public class AuthService {
                 .conUsuario(usuarioModelo.getUsuario())
                 .conClave(passwordEncoder.encode(usuarioModelo.getClave()))
                 .conEmail(usuarioModelo.getEmail())
-                .conFechaCreacion(new Date())
+                .conFechaCreacion(LocalDateTime.now())
                 .conEstado(false)
                 .conRoles(Collections.singletonList(new Rol(2L, "Jugador")))
                 .build();
@@ -66,7 +65,7 @@ public class AuthService {
         Token verificacionToken = Token.builder()
                 .conToken(token)
                 .conUsuario(usuario)
-                .conFechaExpiracion(new Date())
+                .conFechaExpiracion(LocalDateTime.now())
                 .build();
 
         return tokenRepositorioMySQL.registrarToken(verificacionToken);
@@ -103,7 +102,7 @@ public class AuthService {
         return Autenticacion.builder()
                 .tokenAutenticacion(token)
                 .refreshToken(refreshToken.getRefreshToken())
-                .expiresAt(Instant.now().plusMillis(jwtProvider.getExpiracionJwt()))
+                .expiresAt(LocalDateTime.now().plusSeconds(jwtProvider.getExpiracionJwt()))
                 .usuario(UsuarioTransformer.usuariOptSinClave(usuario))
                 .build();
 

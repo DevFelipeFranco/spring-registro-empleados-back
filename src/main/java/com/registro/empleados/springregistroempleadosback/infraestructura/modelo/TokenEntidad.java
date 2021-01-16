@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TOKEN", schema = "DB_REGISTRO_EMPLEADOS")
@@ -25,8 +25,8 @@ public class TokenEntidad implements Serializable {
 
     private String token;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaExpiracion;
+    @Column(name = "FECHA_EXPIRACION", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaExpiracion;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_USUARIO")

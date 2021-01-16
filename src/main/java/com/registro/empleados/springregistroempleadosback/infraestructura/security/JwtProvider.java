@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -41,7 +43,7 @@ public class JwtProvider {
                 .setSubject(username)
                 .setIssuedAt(Date.from(Instant.now()))
                 .signWith(getLlavePrivada())
-                .setExpiration(Date.from(Instant.now().plusMillis(expiracionJwt)))
+                .setExpiration(Date.from(LocalDateTime.now().plusSeconds(expiracionJwt).atZone(ZoneId.systemDefault()).toInstant()))
                 .compact();
     }
 
@@ -50,7 +52,7 @@ public class JwtProvider {
                 .setSubject(usuario)
                 .setIssuedAt(Date.from(Instant.now()))
                 .signWith(getLlavePrivada())
-                .setExpiration(Date.from(Instant.now().plusMillis(expiracionJwt)))
+                .setExpiration(Date.from(LocalDateTime.now().plusSeconds(expiracionJwt).atZone(ZoneId.systemDefault()).toInstant()))
                 .compact();
     }
 
