@@ -3,13 +3,16 @@ package com.registro.empleados.springregistroempleadosback.dominio.transformador
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 
+import java.time.Instant;
 import java.util.Optional;
 
 public final class UsuarioTransformer {
 
-    public static Optional<Autenticacion> usuarioToAutenticacion(String token, Optional<Usuario> usuario) {
+    public static Optional<Autenticacion> usuarioToAutenticacion(String token, Optional<Usuario> usuario, Long expiracionToken, String recargarToken) {
         return usuario.map(u -> Autenticacion.builder()
                 .tokenAutenticacion(token)
+                .refreshToken(recargarToken)
+                .expiresAt(Instant.now().plusMillis(expiracionToken))
                 .usuario(UsuarioTransformer.usuarioSinClave(u))
                 .build());
 
@@ -24,5 +27,9 @@ public final class UsuarioTransformer {
                 .conEstado(usuario.getEstado())
                 .conRoles(usuario.getRoles())
                 .build();
+    }
+
+    public static Usuario usuariOptSinClave(Optional<Usuario> usuario) {
+        return usuario.map(UsuarioTransformer::usuarioSinClave).orElse(null);
     }
 }

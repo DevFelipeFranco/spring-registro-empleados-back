@@ -1,9 +1,8 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.security;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.CertificadoException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
 public class JwtProvider {
 
     private KeyStore keyStore;
+
+    @Value("${jwt.expiration.time}")
+    private Long expiracionJwt;
 
     @PostConstruct
     public void init() {
@@ -35,7 +39,18 @@ public class JwtProvider {
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();
         return Jwts.builder()
                 .setSubject(username)
+                .setIssuedAt(Date.from(Instant.now()))
                 .signWith(getLlavePrivada())
+                .setExpiration(Date.from(Instant.now().plusMillis(expiracionJwt)))
+                .compact();
+    }
+
+    public String generarTokenConUsuario(String usuario) {
+        return Jwts.builder()
+                .setSubject(usuario)
+                .setIssuedAt(Date.from(Instant.now()))
+                .signWith(getLlavePrivada())
+                .setExpiration(Date.from(Instant.now().plusMillis(expiracionJwt)))
                 .compact();
     }
 
@@ -71,4 +86,9 @@ public class JwtProvider {
             throw new CertificadoException("Ocurrio un error obteniendo el cuerpo de JWt", e);
         }
     }
+
+    public Long getExpiracionJwt() {
+        return expiracionJwt;
+    }
+
 }

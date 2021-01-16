@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
+import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoRefreshToken;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
@@ -20,7 +21,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +37,7 @@ public class AuthService {
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenServicio refreshTokenServicio;
 
     public Usuario registrarUsuario(Usuario usuarioModelo) {
         Usuario usuario = Usuario.builder()
@@ -85,7 +91,21 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generarToken(authenticate);
 
-        return UsuarioTransformer.usuarioToAutenticacion(token, usuarioRepositorioMySQL.buscarUsuario(usuario.getUsuario()));
+        return UsuarioTransformer.usuarioToAutenticacion(token, usuarioRepositorioMySQL.buscarUsuario(usuario.getUsuario()), jwtProvider.getExpiracionJwt(), refreshTokenServicio.generarRefreshToken().getToken());
+
+    }
+
+    public Autenticacion refreshToken(ComandoRefreshToken refreshToken) {
+        refreshTokenServicio.validateActualizacionToken(refreshToken.getRefreshToken());
+        String token = jwtProvider.generarTokenConUsuario(refreshToken.getUsuario());
+        Optional<Usuario> usuario = usuarioRepositorioMySQL.buscarUsuario(refreshToken.getUsuario());
+
+        return Autenticacion.builder()
+                .tokenAutenticacion(token)
+                .refreshToken(refreshToken.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getExpiracionJwt()))
+                .usuario(UsuarioTransformer.usuariOptSinClave(usuario))
+                .build();
 
     }
 }

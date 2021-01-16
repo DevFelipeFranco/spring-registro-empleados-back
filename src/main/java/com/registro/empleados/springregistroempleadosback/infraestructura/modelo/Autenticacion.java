@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +15,7 @@ import lombok.NoArgsConstructor;
 public class Autenticacion {
 
     private String tokenAutenticacion;
+    private String refreshToken;
+    private Instant expiresAt;
     private Usuario usuario;
 }
