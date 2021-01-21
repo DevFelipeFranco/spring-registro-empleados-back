@@ -1,4 +1,4 @@
-package com.registro.empleados.springregistroempleadosback.dominio.modelo;
+package com.registro.empleados.springregistroempleadosback.aplicacion.comando;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Persona {
+public class ComandoPersona {
 
     private Long idPersona;
     private Integer identificacion;
@@ -23,6 +23,6 @@ public class Persona {
     private int edad;
     private String correoElectronico;
     private String direccion;
-    private TipoDocumento tipoDocumento;
-    private Usuario usuario;
+    private ComandoTipoDocumento tipoDocumento;
+    private ComandoUsuario usuario;
 }

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 @Entity
 @Table(name = "PERSONAS", schema = "DB_REGISTRO_EMPLEADOS")
@@ -22,5 +25,30 @@ public class PersonaEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
 
-    private String nombre;
+    private Integer identificacion;
+    private String primerNombre;
+    private String segundoNombre;
+    private String primerApellido;
+    private String segundoApellido;
+
+    @Column(name = "FECHA_NACIMIENTO", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaNacimiento;
+
+    @Transient
+    private int edad;
+
+    private String correoElectronico;
+    private String direccion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TIPO_DOCUMENTO")
+    private TipoDocumentoEntidad tipoDocumento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO")
+    private UsuarioEntidad usuarioEntidad;
+
+    public int getEdad() {
+        return Period.between(fechaNacimiento.toLocalDate(), LocalDate.now()).getYears();
+    }
 }

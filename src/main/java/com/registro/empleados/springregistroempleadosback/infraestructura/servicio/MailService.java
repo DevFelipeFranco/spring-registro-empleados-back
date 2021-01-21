@@ -22,11 +22,11 @@ public class MailService {
     @Async
     public void sendMail(NotificacionEmail notificacionEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
             messageHelper.setFrom("devfelipefranco@gmial.com");
             messageHelper.setTo(notificacionEmail.getDestinatario());
             messageHelper.setSubject(notificacionEmail.getAsunto());
-            messageHelper.setText(mailContentBuilder.build(notificacionEmail.getCuerpo()));
+            messageHelper.setText(mailContentBuilder.build(notificacionEmail.getCuerpo()), true);
         };
 
         try {
