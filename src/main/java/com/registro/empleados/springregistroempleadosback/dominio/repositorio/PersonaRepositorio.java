@@ -9,4 +9,6 @@ public interface PersonaRepositorio {
     Persona registrarPersona(Persona persona);
 
     List<Persona> consultarPersonas();
+
+    void eliminarPersonaPorId(Long idPersona);
 }

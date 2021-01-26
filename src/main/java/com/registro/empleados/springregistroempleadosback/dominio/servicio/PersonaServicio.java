@@ -19,13 +19,27 @@ public class PersonaServicio {
     private final UsuarioRepositorioMySQL usuarioRepositorioMySQL;
 
     public Persona registrarPersona(Persona persona) {
-        Usuario usuario = usuarioRepositorioMySQL.buscarUsuario(persona.getUsuario().getUsuario())
-                .orElseThrow(() -> new UsuarioNoExisteException("No existe el usuario: " + persona.getUsuario().getUsuario()));
+        Usuario usuario = consultarUsuario(persona.getUsuario().getUsuario());
         persona.setUsuario(usuario);
         return personaRepositorioMySQL.registrarPersona(persona);
     }
 
     public List<Persona> consultarPersonas() {
         return personaRepositorioMySQL.consultarPersonas();
+    }
+
+    public Persona actualizarPersona(Persona persona) {
+        Usuario usuario = consultarUsuario(persona.getUsuario().getUsuario());
+        persona.setUsuario(usuario);
+        return personaRepositorioMySQL.registrarPersona(persona);
+    }
+
+    private Usuario consultarUsuario(String usuario) {
+        return usuarioRepositorioMySQL.buscarUsuario(usuario)
+                .orElseThrow(() -> new UsuarioNoExisteException("No existe el usuario: " + usuario));
+    }
+
+    public void eliminarPersona(Long idPersona) {
+        personaRepositorioMySQL.eliminarPersonaPorId(idPersona);
     }
 }

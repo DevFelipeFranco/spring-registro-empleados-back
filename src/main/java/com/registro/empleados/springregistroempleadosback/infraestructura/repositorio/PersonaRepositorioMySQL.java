@@ -22,4 +22,9 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
     default List<Persona> consultarPersonas() {
         return PersonaTransformador.listaPersonasEntidadToModelo(findAll());
     }
+
+    @Override
+    default void eliminarPersonaPorId(Long idPersona) {
+        deleteById(idPersona);
+    }
 }
