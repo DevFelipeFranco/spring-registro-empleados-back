@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback;
 
+import com.registro.empleados.springregistroempleadosback.infraestructura.config.SwaggerConfiguration;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -9,10 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
+@Import(SwaggerConfiguration.class)
 public class SpringRegistroEmpleadosBackApplication {
 
     public static void main(String[] args) {
