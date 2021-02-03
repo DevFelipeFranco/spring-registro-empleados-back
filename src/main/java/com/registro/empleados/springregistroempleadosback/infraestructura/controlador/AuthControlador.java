@@ -31,7 +31,7 @@ public class AuthControlador {
         return "Inicio";
     }
 
-    @PostMapping(value = "signup")
+    @PostMapping(value = "/signup")
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody ComandoUsuario comandoUsuario) {
         return ResponseEntity.ok(manejadorRegistrarUsuario.ejecutar(comandoUsuario));
     }
