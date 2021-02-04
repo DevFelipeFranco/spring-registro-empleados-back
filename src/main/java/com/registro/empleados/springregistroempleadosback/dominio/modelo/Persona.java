@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.dominio.modelo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,9 +20,10 @@ public class Persona {
     private String segundoNombre;
     private String primerApellido;
     private String segundoApellido;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime fechaNacimiento;
     private int edad;
-    private String correoElectronico;
+    private String email;
     private String direccion;
     private TipoDocumento tipoDocumento;
     private Usuario usuario;

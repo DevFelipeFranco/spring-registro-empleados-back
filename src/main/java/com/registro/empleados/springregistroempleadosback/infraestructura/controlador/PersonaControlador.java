@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,11 @@ public class PersonaControlador {
     private final ManejadorConsultarPersonas manejadorConsultarPersonas;
     private final ManejadorActualizarPersona manejadorActualizarPersona;
     private final ManejadorEliminarPersona manejadorEliminarPersona;
+
+   @GetMapping(value = "/fecha")
+   public ResponseEntity<LocalDateTime> pruebaFecha() {
+       return ResponseEntity.ok(LocalDateTime.now());
+   }
 
     @GetMapping(value = "")
     public ResponseEntity<List<Persona>> consultarPersonas() {
