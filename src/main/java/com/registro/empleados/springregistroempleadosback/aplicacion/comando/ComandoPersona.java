@@ -21,7 +21,7 @@ public class ComandoPersona {
     private String segundoApellido;
     private LocalDateTime fechaNacimiento;
     private int edad;
-    private String correoElectronico;
+    private String email;
     private String direccion;
     private ComandoTipoDocumento tipoDocumento;
     private ComandoUsuario usuario;

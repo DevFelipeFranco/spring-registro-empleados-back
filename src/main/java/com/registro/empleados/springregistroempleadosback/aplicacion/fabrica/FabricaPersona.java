@@ -15,7 +15,7 @@ public final class FabricaPersona {
                 .segundoApellido(comandoPersona.getSegundoApellido())
                 .fechaNacimiento(comandoPersona.getFechaNacimiento())
                 .edad(comandoPersona.getEdad())
-                .email(comandoPersona.getCorreoElectronico())
+                .email(comandoPersona.getEmail())
                 .direccion(comandoPersona.getDireccion())
                 .tipoDocumento(FabricaTipoDocumento.comandoTipoDocumentoToTipoDocumento(comandoPersona.getTipoDocumento()))
                 .usuario(FabricaUsuario.comandoUsuarioToModelo(comandoPersona.getUsuario()))

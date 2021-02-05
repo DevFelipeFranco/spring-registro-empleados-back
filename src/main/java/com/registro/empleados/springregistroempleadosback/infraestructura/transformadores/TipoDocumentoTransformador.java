@@ -3,6 +3,9 @@ package com.registro.empleados.springregistroempleadosback.infraestructura.trans
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.TipoDocumentoEntidad;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public final class TipoDocumentoTransformador {
 
     public static TipoDocumentoEntidad tipoDocumentoToEntidad(TipoDocumento tipoDocumento) {
@@ -19,5 +22,9 @@ public final class TipoDocumentoTransformador {
                 .tipoDocumento(tipoDocumentoEntidad.getTipoDocumento())
                 .descripcion(tipoDocumentoEntidad.getDescripcion())
                 .build();
+    }
+
+    public static List<TipoDocumento> tipoDocumentosEntidadToTipoDocumentosModel(List<TipoDocumentoEntidad> tipoDocumentos) {
+        return tipoDocumentos.stream().map(TipoDocumentoTransformador::tipoDocumentoEntidadToModelo).collect(Collectors.toList());
     }
 }

@@ -2,8 +2,10 @@ package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.PersonaRepositorioMySQL;
+import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TipoDocumentoMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class PersonaServicio {
 
     private final PersonaRepositorioMySQL personaRepositorioMySQL;
     private final UsuarioRepositorioMySQL usuarioRepositorioMySQL;
+    private final TipoDocumentoMySQL tipoDocumentoMySQL;
 
     public Persona registrarPersona(Persona persona) {
         Usuario usuario = consultarUsuario(persona.getUsuario().getUsuario());
@@ -41,5 +44,9 @@ public class PersonaServicio {
 
     public void eliminarPersona(Long idPersona) {
         personaRepositorioMySQL.eliminarPersonaPorId(idPersona);
+    }
+
+    public List<TipoDocumento> consultarTipoDocumentos() {
+        return tipoDocumentoMySQL.consultarTipoDocumentos();
     }
 }

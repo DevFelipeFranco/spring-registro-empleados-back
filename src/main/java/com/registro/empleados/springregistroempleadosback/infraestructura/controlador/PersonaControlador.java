@@ -5,7 +5,9 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.M
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorConsultarPersonas;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorEliminarPersona;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistroPersona;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.tipoDocumento.ManejadorConsultarTipoDocumento;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class PersonaControlador {
     private final ManejadorConsultarPersonas manejadorConsultarPersonas;
     private final ManejadorActualizarPersona manejadorActualizarPersona;
     private final ManejadorEliminarPersona manejadorEliminarPersona;
+    private final ManejadorConsultarTipoDocumento manejadorConsultarTipoDocumento;
 
    @GetMapping(value = "/fecha")
    public ResponseEntity<LocalDateTime> pruebaFecha() {
@@ -32,6 +35,11 @@ public class PersonaControlador {
     @GetMapping(value = "")
     public ResponseEntity<List<Persona>> consultarPersonas() {
         return ResponseEntity.ok(manejadorConsultarPersonas.ejecutar());
+    }
+
+    @GetMapping(value = "/tipoDocumento")
+    public ResponseEntity<List<TipoDocumento>> consultarTipoDocumentos() {
+        return ResponseEntity.ok(manejadorConsultarTipoDocumento.ejecutar());
     }
 
     @PostMapping(value = "/registro")
