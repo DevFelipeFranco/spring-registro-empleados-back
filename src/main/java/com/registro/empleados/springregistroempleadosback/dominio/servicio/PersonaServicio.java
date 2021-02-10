@@ -8,10 +8,10 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.reposi
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TipoDocumentoMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -46,6 +46,7 @@ public class PersonaServicio {
         personaRepositorioMySQL.eliminarPersonaPorId(idPersona);
     }
 
+    @Cacheable(value = "userCache")
     public List<TipoDocumento> consultarTipoDocumentos() {
         return tipoDocumentoMySQL.consultarTipoDocumentos();
     }

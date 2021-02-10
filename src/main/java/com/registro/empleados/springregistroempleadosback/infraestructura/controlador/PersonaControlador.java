@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,11 +26,6 @@ public class PersonaControlador {
     private final ManejadorEliminarPersona manejadorEliminarPersona;
     private final ManejadorConsultarTipoDocumento manejadorConsultarTipoDocumento;
 
-   @GetMapping(value = "/fecha")
-   public ResponseEntity<LocalDateTime> pruebaFecha() {
-       return ResponseEntity.ok(LocalDateTime.now());
-   }
-
     @GetMapping(value = "")
     public ResponseEntity<List<Persona>> consultarPersonas() {
         return ResponseEntity.ok(manejadorConsultarPersonas.ejecutar());
@@ -42,7 +36,7 @@ public class PersonaControlador {
         return ResponseEntity.ok(manejadorConsultarTipoDocumento.ejecutar());
     }
 
-    @PostMapping(value = "/registro")
+    @PostMapping(value = "")
     public ResponseEntity<Persona> registrarPersona(@RequestBody ComandoPersona personaEntidad) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(manejadorRegistroPersona.ejecutar(personaEntidad));
@@ -55,7 +49,8 @@ public class PersonaControlador {
     }
 
     @DeleteMapping(value = "/{idPersona}")
-    public void eliminarPersona(@PathVariable("idPersona") Long idPersona) {
+    public ResponseEntity<String> eliminarPersona(@PathVariable("idPersona") Long idPersona) {
         manejadorEliminarPersona.ejecutar(idPersona);
+        return ResponseEntity.ok("Se elimino con exito");
     }
 }
