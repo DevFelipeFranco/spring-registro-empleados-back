@@ -19,6 +19,7 @@ public final class FabricaPersona {
                 .direccion(comandoPersona.getDireccion())
                 .tipoDocumento(FabricaTipoDocumento.comandoTipoDocumentoToTipoDocumento(comandoPersona.getTipoDocumento()))
                 .usuario(FabricaUsuario.comandoUsuarioToModelo(comandoPersona.getUsuario()))
+                .genero(FabricaGenero.comandoGeneroToModelo(comandoPersona.getGenero()))
                 .build();
 
     }

@@ -48,6 +48,10 @@ public class PersonaEntidad implements Serializable {
     @JoinColumn(name = "ID_USUARIO")
     private UsuarioEntidad usuarioEntidad;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GENERO")
+    private GeneroEntidad generoEntidad;
+
     public int getEdad() {
         return Period.between(fechaNacimiento.toLocalDate(), LocalDate.now()).getYears();
     }

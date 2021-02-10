@@ -5,7 +5,9 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.M
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorConsultarPersonas;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorEliminarPersona;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistroPersona;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.genero.ManejadorConsultarGenero;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.tipoDocumento.ManejadorConsultarTipoDocumento;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Genero;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class PersonaControlador {
     private final ManejadorActualizarPersona manejadorActualizarPersona;
     private final ManejadorEliminarPersona manejadorEliminarPersona;
     private final ManejadorConsultarTipoDocumento manejadorConsultarTipoDocumento;
+    private final ManejadorConsultarGenero manejadorConsultarGenero;
 
     @GetMapping(value = "")
     public ResponseEntity<List<Persona>> consultarPersonas() {
@@ -34,6 +37,11 @@ public class PersonaControlador {
     @GetMapping(value = "/tipoDocumento")
     public ResponseEntity<List<TipoDocumento>> consultarTipoDocumentos() {
         return ResponseEntity.ok(manejadorConsultarTipoDocumento.ejecutar());
+    }
+
+    @GetMapping(value = "/genero")
+    public ResponseEntity<List<Genero>> consultarGenero() {
+        return ResponseEntity.ok(manejadorConsultarGenero.ejecutar());
     }
 
     @PostMapping(value = "")
@@ -49,8 +57,7 @@ public class PersonaControlador {
     }
 
     @DeleteMapping(value = "/{idPersona}")
-    public ResponseEntity<String> eliminarPersona(@PathVariable("idPersona") Long idPersona) {
+    public void eliminarPersona(@PathVariable("idPersona") Long idPersona) {
         manejadorEliminarPersona.ejecutar(idPersona);
-        return ResponseEntity.ok("Se elimino con exito");
     }
 }

@@ -25,4 +25,5 @@ public class ComandoPersona {
     private String direccion;
     private ComandoTipoDocumento tipoDocumento;
     private ComandoUsuario usuario;
+    private ComandoGenero genero;
 }

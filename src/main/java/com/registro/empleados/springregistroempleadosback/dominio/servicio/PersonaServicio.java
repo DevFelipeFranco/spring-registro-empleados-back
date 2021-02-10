@@ -1,9 +1,11 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Genero;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
+import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.GeneroRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.PersonaRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TipoDocumentoMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
@@ -20,6 +22,7 @@ public class PersonaServicio {
     private final PersonaRepositorioMySQL personaRepositorioMySQL;
     private final UsuarioRepositorioMySQL usuarioRepositorioMySQL;
     private final TipoDocumentoMySQL tipoDocumentoMySQL;
+    private final GeneroRepositorioMySQL generoRepositorioMySQL;
 
     public Persona registrarPersona(Persona persona) {
         Usuario usuario = consultarUsuario(persona.getUsuario().getUsuario());
@@ -46,8 +49,13 @@ public class PersonaServicio {
         personaRepositorioMySQL.eliminarPersonaPorId(idPersona);
     }
 
-    @Cacheable(value = "userCache")
+    @Cacheable(value = "tipoDocumento")
     public List<TipoDocumento> consultarTipoDocumentos() {
         return tipoDocumentoMySQL.consultarTipoDocumentos();
+    }
+
+    @Cacheable(value = "genero")
+    public List<Genero> consultarGenero() {
+        return generoRepositorioMySQL.consultarGenero();
     }
 }

@@ -27,4 +27,5 @@ public class Persona {
     private String direccion;
     private TipoDocumento tipoDocumento;
     private Usuario usuario;
+    private Genero genero;
 }
