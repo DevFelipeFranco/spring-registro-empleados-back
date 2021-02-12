@@ -19,6 +19,17 @@ public final class ContratoTransformador {
                 .build();
     }
 
+    public static ContratoEntidad controToEntidad(Contrato contrato) {
+        return ContratoEntidad.builder()
+                .idContrato(contrato.getIdContrato())
+                .fechaIngreso(contrato.getFechaIngreso())
+                .fechaSalida(contrato.getFechaSalida())
+                .documentoContrato(contrato.getDocumentoContrato())
+                .personaEntidad(PersonaTransformador.personaToPersonaEntidad(contrato.getPersona()))
+                .tipoContratoEntidad(TipoContratoTransformador.tipoContratoToEntidad(contrato.getTipoContrato()))
+                .build();
+    }
+
     public static List<Contrato> contratosEntidadToModelo(List<ContratoEntidad> contratosEntidad) {
         return contratosEntidad.stream().map(ContratoTransformador::contratoEntidadToModelo).collect(Collectors.toList());
     }

@@ -16,4 +16,10 @@ public interface ContratoRepositorioMySQL extends JpaRepository<ContratoEntidad,
     default List<Contrato> consultarContratos() {
         return ContratoTransformador.contratosEntidadToModelo(findAll());
     }
+
+    @Override
+    default Contrato registrarContrato(Contrato contrato) {
+        ContratoEntidad contratoEntidad = ContratoTransformador.controToEntidad(contrato);
+        return ContratoTransformador.contratoEntidadToModelo(save(contratoEntidad));
+    }
 }

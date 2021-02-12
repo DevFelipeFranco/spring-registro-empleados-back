@@ -7,4 +7,6 @@ import java.util.List;
 public interface ContratoRepositorio {
 
     List<Contrato> consultarContratos();
+
+    Contrato registrarContrato(Contrato contrato);
 }

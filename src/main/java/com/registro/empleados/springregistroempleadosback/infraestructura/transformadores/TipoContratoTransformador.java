@@ -11,4 +11,11 @@ public final class TipoContratoTransformador {
                 .tipoContrato(tipoContratoEntidad.getTipoContrato())
                 .build();
     }
+
+    public static TipoContratoEntidad tipoContratoToEntidad(TipoContrato tipoContrato) {
+        return TipoContratoEntidad.builder()
+                .idTipoContrato(tipoContrato.getIdTipoContrato())
+                .tipoContrato(tipoContrato.getTipoContrato())
+                .build();
+    }
 }
