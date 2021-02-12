@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(setterPrefix = "con")
-public class Rol {
+@Builder
+public class TipoContrato {
 
-    private Long idRol;
-    private String descripcion;
+    private Long idTipoContrato;
+    private String tipoContrato;
 }

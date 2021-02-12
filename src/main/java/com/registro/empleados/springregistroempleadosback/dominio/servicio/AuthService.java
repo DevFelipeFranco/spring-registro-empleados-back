@@ -2,6 +2,7 @@ package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoRefreshToken;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
@@ -39,6 +40,7 @@ public class AuthService {
     private final RefreshTokenServicio refreshTokenServicio;
 
     public Usuario registrarUsuario(Usuario usuarioModelo) {
+        existeUsuario(usuarioModelo.getUsuario());
         Usuario usuario = Usuario.builder()
                 .conUsuario(usuarioModelo.getUsuario())
                 .conClave(passwordEncoder.encode(usuarioModelo.getClave()))
@@ -51,6 +53,12 @@ public class AuthService {
         Token token = generarVerificacionToken(usuario);
         enviarEmail(token.getToken(), usuarioModelo.getEmail());
         return token.getUsuario();
+    }
+
+    private void existeUsuario(String nombreUsaurio) {
+        if (usuarioRepositorioMySQL.buscarUsuario(nombreUsaurio).isPresent()) {
+            throw new UsuarioExisteException("Ya existe un usuario registrado");
+        }
     }
 
     private void enviarEmail(String token, String email) {
