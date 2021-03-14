@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,10 @@ public class RolEntidad implements Serializable {
 
     private String descripcion;
 
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private List<UsuarioEntidad> usuarios;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "rolEntidad", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<AutorizacionEntidad> autorizacionesEntidad;
+
+//    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+//    private List<UsuarioEntidad> usuarios;
 }

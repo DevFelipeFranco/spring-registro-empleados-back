@@ -26,11 +26,20 @@ public class UsuarioEntidad implements Serializable {
     @Column(name = "USUARIO", unique = true)
     private String usuario;
     private String clave;
+
+    private String nombres;
+    private String apellidos;
+
+    @Column(name = "CORREO_ELECTRONICO", unique = true)
     private String correoElectronico;
     private String estado;
+    private String snNoBloqueado;
 
-    @Column(name = "FECHA_CREACION", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaUltimoIngreso;
+    private LocalDateTime fechaUltimoIngresoVisualizacion;
+
+    private String imagenPerfilUrl;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
@@ -43,6 +52,6 @@ public class UsuarioEntidad implements Serializable {
                     referencedColumnName = "ID_ROL"))
     private List<RolEntidad> roles;
 
-    @OneToOne(mappedBy = "usuarioEntidad", cascade = CascadeType.ALL)
-    private TokenEntidad tokenEntidad;
+//    @OneToOne(mappedBy = "usuarioEntidad", cascade = CascadeType.ALL)
+//    private TokenEntidad tokenEntidad;
 }
