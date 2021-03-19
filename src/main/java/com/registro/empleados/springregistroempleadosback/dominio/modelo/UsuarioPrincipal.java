@@ -1,5 +1,8 @@
 package com.registro.empleados.springregistroempleadosback.dominio.modelo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Data
 public class UsuarioPrincipal implements UserDetails {
 
     private static final long serialVersionUID = 4380012601494834962L;
@@ -27,7 +32,15 @@ public class UsuarioPrincipal implements UserDetails {
             authorities.add(authority);
         });
 
-        return authorities;
+        List<Autorizacion> autorizaciones =
+                this.usuario.getRoles().stream()
+                        .map(Rol::getAutorizaciones)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+
+        return autorizaciones.stream()
+                .map(autorizacion -> new SimpleGrantedAuthority(autorizacion.getAutorizacion()))
+                .collect(Collectors.toList());
     }
 
     @Override

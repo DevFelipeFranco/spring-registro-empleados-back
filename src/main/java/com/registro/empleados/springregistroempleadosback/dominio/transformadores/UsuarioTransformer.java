@@ -21,11 +21,33 @@ public final class UsuarioTransformer {
     private static Usuario usuarioSinClave(Usuario usuario) {
         return Usuario.builder()
                 .conIdUsuario(usuario.getIdUsuario())
+                .conNombres(usuario.getNombres())
+                .conApellidos(usuario.getApellidos())
                 .conUsuario(usuario.getUsuario())
                 .conEmail(usuario.getEmail())
                 .conFechaCreacion(usuario.getFechaCreacion())
+                .conFechaUltimoIngreso(usuario.getFechaUltimoIngreso())
+                .conFechaUltimoIngresoVisualizacion(usuario.getFechaUltimoIngresoVisualizacion())
                 .conEstado(usuario.getEstado())
+                .conSnNoBloqueado(usuario.getSnNoBloqueado())
+                .conImagenPerfilUrl(usuario.getImagenPerfilUrl())
                 .conRoles(usuario.getRoles())
+                .build();
+    }
+
+    public static Usuario usuarioSinClaveNiRoles(Usuario usuario) {
+        return Usuario.builder()
+                .conIdUsuario(usuario.getIdUsuario())
+                .conNombres(usuario.getNombres())
+                .conApellidos(usuario.getApellidos())
+                .conUsuario(usuario.getUsuario())
+                .conEmail(usuario.getEmail())
+                .conFechaCreacion(usuario.getFechaCreacion())
+                .conFechaUltimoIngreso(usuario.getFechaUltimoIngreso())
+                .conFechaUltimoIngresoVisualizacion(usuario.getFechaUltimoIngresoVisualizacion())
+                .conEstado(usuario.getEstado())
+                .conSnNoBloqueado(usuario.getSnNoBloqueado())
+                .conImagenPerfilUrl(usuario.getImagenPerfilUrl())
                 .build();
     }
 

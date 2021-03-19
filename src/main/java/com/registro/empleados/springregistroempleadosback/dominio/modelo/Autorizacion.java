@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(setterPrefix = "con")
-public class Rol {
+public class Autorizacion {
 
-    private Long idRol;
-    private String descripcion;
-    private List<Autorizacion> autorizaciones;
+    private Long idAutorizacion;
+    private String autorizacion;
 }

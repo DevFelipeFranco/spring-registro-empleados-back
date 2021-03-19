@@ -14,6 +14,7 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.reposi
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.security.JwtProvider;
 import com.registro.empleados.springregistroempleadosback.infraestructura.servicio.MailService;
+import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +22,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,16 +42,22 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenServicio refreshTokenServicio;
+    private final ProcesarImagenUploadService procesarImagenUploadService;
 
     public Usuario registrarUsuario(Usuario usuarioModelo) {
         existeUsuario(usuarioModelo.getUsuario());
+        String imagenPerfilTemporal = procesarImagenUploadService.getImagenPerfilTemporal(usuarioModelo.getUsuario());
         Usuario usuario = Usuario.builder()
+                .conNombres(usuarioModelo.getNombres())
+                .conApellidos(usuarioModelo.getApellidos())
                 .conUsuario(usuarioModelo.getUsuario())
                 .conClave(passwordEncoder.encode(usuarioModelo.getClave()))
                 .conEmail(usuarioModelo.getEmail())
                 .conFechaCreacion(LocalDateTime.now())
                 .conEstado(false)
-                .conRoles(Collections.singletonList(new Rol(2L, "Jugador")))
+                .conSnNoBloqueado(true)
+                .conImagenPerfilUrl(imagenPerfilTemporal)
+                .conRoles(Collections.singletonList(new Rol(1L, "ROLE_USER", new ArrayList<>())))
                 .build();
 
         Token token = generarVerificacionToken(usuario);
@@ -65,7 +75,7 @@ public class AuthService {
         mailService.sendMail(new NotificacionEmail("Por favor activa tu cuenta",
                 email, "Gracias por registrarte, " +
                 "por favor da click en la URL a continuacion para activar tu cuenta : " +
-                "http://localhost:8081/api/auth/accountVerification/" + token));
+                "http://localhost:9003/api/auth/accountVerification/" + token));
     }
 
     private Token generarVerificacionToken(Usuario usuario) {
@@ -79,6 +89,7 @@ public class AuthService {
         return tokenRepositorioMySQL.registrarToken(verificacionToken);
     }
 
+    @Transactional
     public void verificarCuenta(String token) {
         Optional<Token> verificacionToken = tokenRepositorioMySQL.buscarToken(token);
         verificacionToken.orElseThrow(() -> new NoExisteTokenException("Token Invalido"));
@@ -86,10 +97,8 @@ public class AuthService {
     }
 
     private void buscarUsaurioYHabilitar(Token token) {
-        String usuario = token.getUsuario().getUsuario();
-        Usuario usuarioEncontrado = usuarioRepositorioMySQL.buscarUsuario(usuario).orElseThrow(() -> new UsuarioNoExisteException("No se encontro el usuario con el nombre: " + usuario));
-        usuarioEncontrado.setEstado(true);
-        usuarioRepositorioMySQL.registrarUsuario(usuarioEncontrado);
+        token.getUsuario().setEstado(true);
+        usuarioRepositorioMySQL.activarUsuario(UsuarioTransformador.transformBooleanToString(token.getUsuario().getEstado()), token.getIdToken());
     }
 
     public Optional<Autenticacion> login(Usuario usuario) {

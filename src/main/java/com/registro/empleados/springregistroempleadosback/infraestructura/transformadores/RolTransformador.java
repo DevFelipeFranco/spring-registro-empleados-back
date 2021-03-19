@@ -12,6 +12,7 @@ public final class RolTransformador {
         return RolEntidad.builder()
                 .idRol(rol.getIdRol())
                 .descripcion(rol.getDescripcion())
+                .autorizacionesEntidad(AutorizacionTransformador.lstModeloToEntidad(rol.getAutorizaciones()))
                 .build();
     }
 
@@ -25,6 +26,7 @@ public final class RolTransformador {
         return Rol.builder()
                 .conIdRol(rolEntidad.getIdRol())
                 .conDescripcion(rolEntidad.getDescripcion())
+                .conAutorizaciones(AutorizacionTransformador.lstEntidadToModelo(rolEntidad.getAutorizacionesEntidad()))
                 .build();
     }
 

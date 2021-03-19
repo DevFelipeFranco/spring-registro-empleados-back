@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback;
 
+import com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant;
 import com.registro.empleados.springregistroempleadosback.infraestructura.config.SwaggerConfiguration;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
@@ -13,6 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.io.File;
+
+import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.USER_FOLDER;
+
 @SpringBootApplication
 @EnableAsync
 @Import(SwaggerConfiguration.class)
@@ -20,6 +25,7 @@ public class SpringRegistroEmpleadosBackApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringRegistroEmpleadosBackApplication.class, args);
+        new File(USER_FOLDER).mkdirs();
     }
 
 //    @Bean

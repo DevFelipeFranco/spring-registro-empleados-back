@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -23,7 +24,7 @@ public class AutorizacionEntidad implements Serializable {
 
     private String autorizacion;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ROL")
     private RolEntidad rolEntidad;

@@ -9,4 +9,10 @@ public interface UsuarioRepositorio {
     Usuario registrarUsuario(Usuario usuario);
 
     Optional<Usuario> buscarUsuario(String usuario);
+
+    void activarUsuario(String estado, Long idUsuario);
+
+    Optional<Usuario> buscarUsuarioPorId(Long id);
+
+    void actualizarRutaImagenPerfil(String ruta, Long idUsuario);
 }

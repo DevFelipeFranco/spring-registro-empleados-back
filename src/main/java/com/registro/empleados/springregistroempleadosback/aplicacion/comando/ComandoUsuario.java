@@ -14,4 +14,6 @@ public class ComandoUsuario {
     private String usuario;
     private String clave;
     private String email;
+    private String nombres;
+    private String apellidos;
 }

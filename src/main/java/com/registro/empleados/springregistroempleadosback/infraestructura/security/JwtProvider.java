@@ -1,9 +1,11 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.security;
 
+import com.registro.empleados.springregistroempleadosback.dominio.constants.SecurityConstant;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.CertificadoException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,13 @@ import java.security.cert.CertificateException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.registro.empleados.springregistroempleadosback.dominio.constants.SecurityConstant.*;
 
 @Service
 public class JwtProvider {
@@ -39,8 +46,13 @@ public class JwtProvider {
 
     public String generarToken(Authentication authentication) {
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        Collection<? extends GrantedAuthority> authorities = ((UserDetails) authentication.getPrincipal()).getAuthorities();
+        List<String> authorities1 = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         return Jwts.builder()
+                .setIssuer(REGISTER_EMPLOYE_LCC)
+                .setAudience(REGISTER_EMPLOYE_ADMINISTRATION)
                 .setSubject(username)
+                .claim(AUTHORITIES, authorities1)
                 .setIssuedAt(Date.from(Instant.now()))
                 .signWith(getLlavePrivada())
                 .setExpiration(Date.from(LocalDateTime.now().plusSeconds(expiracionJwt).atZone(ZoneId.systemDefault()).toInstant()))

@@ -10,6 +10,8 @@ public final class FabricaUsuario {
                 .conUsuario(comandoUsuario.getUsuario())
                 .conClave(comandoUsuario.getClave())
                 .conEmail(comandoUsuario.getEmail())
+                .conNombres(comandoUsuario.getNombres())
+                .conApellidos(comandoUsuario.getApellidos())
                 .build();
     }
 }
