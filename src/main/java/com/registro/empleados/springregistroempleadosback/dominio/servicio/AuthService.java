@@ -7,9 +7,11 @@ import com.registro.empleados.springregistroempleadosback.dominio.excepciones.Us
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.UsuarioPrincipal;
 import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.NotificacionEmail;
+import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.security.JwtProvider;
@@ -106,8 +108,9 @@ public class AuthService {
                 usuario.getClave()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generarToken(authenticate);
+        UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authenticate.getPrincipal();
 
-        return UsuarioTransformer.usuarioToAutenticacion(token, usuarioRepositorioMySQL.buscarUsuario(usuario.getUsuario()), jwtProvider.getExpiracionJwt(), refreshTokenServicio.generarRefreshToken().getToken());
+        return UsuarioTransformer.usuarioToAutenticacion(token, Optional.of(usuarioPrincipal.getUsuario()), jwtProvider.getExpiracionJwt(), refreshTokenServicio.generarRefreshToken().getToken());
 
     }
 

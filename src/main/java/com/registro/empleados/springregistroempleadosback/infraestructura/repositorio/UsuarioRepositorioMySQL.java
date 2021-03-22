@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -40,6 +41,11 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
         actualizarRutaImagen(ruta, idUsuario);
     }
 
+    @Override
+    default void actualizarFechaIngreso(Usuario usuarioEncontrado) {
+        actualizarFechas(usuarioEncontrado.getFechaUltimoIngreso(), usuarioEncontrado.getFechaUltimoIngresoVisualizacion(), usuarioEncontrado.getIdUsuario());
+    }
+
     Optional<UsuarioEntidad> findByUsuario(String usuario);
     Optional<UsuarioEntidad> findByIdUsuario(Long idUsuario);
 
@@ -50,4 +56,8 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
     @Modifying
     @Query("UPDATE UsuarioEntidad u SET u.imagenPerfilUrl = ?1 WHERE u.idUsuario = ?2")
     void actualizarRutaImagen(String ruta, Long idUsuario);
+
+    @Modifying
+    @Query("UPDATE UsuarioEntidad u SET u.fechaUltimoIngreso = ?1, u.fechaUltimoIngresoVisualizacion = ?2 WHERE u.idUsuario = ?3")
+    void actualizarFechas(LocalDateTime fechaUltimoIngreso, LocalDateTime fechaUltimoIngresoVisualizacion, Long idUsuario);
 }

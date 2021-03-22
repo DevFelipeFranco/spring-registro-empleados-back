@@ -1,18 +1,17 @@
 package com.registro.empleados.springregistroempleadosback.dominio.modelo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class UsuarioPrincipal implements UserDetails {
 
     private static final long serialVersionUID = 4380012601494834962L;
@@ -25,12 +24,12 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        this.usuario.getRoles().forEach(role -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROL_" + role);
-            authorities.add(authority);
-        });
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//
+//        this.usuario.getRoles().forEach(role -> {
+//            GrantedAuthority authority = new SimpleGrantedAuthority("ROL_" + role);
+//            authorities.add(authority);
+//        });
 
         List<Autorizacion> autorizaciones =
                 this.usuario.getRoles().stream()
@@ -60,7 +59,7 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.usuario.getSnNoBloqueado();
     }
 
     @Override

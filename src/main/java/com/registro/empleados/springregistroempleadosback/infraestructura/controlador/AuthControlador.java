@@ -70,7 +70,7 @@ public class AuthControlador {
     }
 
     @PostMapping(value = "/imagen/upload")
-    public ResponseEntity<Usuario> upload(@RequestParam("imagenPerfil") MultipartFile imagenPerfil, @RequestParam("id") Long id) throws IOException, PermisoLecturaException {
+    public ResponseEntity<Usuario> upload(@RequestParam("imagenPerfil") MultipartFile imagenPerfil, @RequestParam("id") Long id) throws IOException {
         Usuario usuarioActualizado = procesarImagenUploadService.uploadImagenPerfil(imagenPerfil, id);
         return ResponseEntity.ok(usuarioActualizado);
     }

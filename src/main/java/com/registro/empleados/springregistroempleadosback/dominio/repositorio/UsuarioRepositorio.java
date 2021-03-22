@@ -15,4 +15,6 @@ public interface UsuarioRepositorio {
     Optional<Usuario> buscarUsuarioPorId(Long id);
 
     void actualizarRutaImagenPerfil(String ruta, Long idUsuario);
+
+    void actualizarFechaIngreso(Usuario usuarioEncontrado);
 }
