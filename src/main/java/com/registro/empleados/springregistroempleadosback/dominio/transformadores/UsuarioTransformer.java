@@ -4,7 +4,9 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class UsuarioTransformer {
 
@@ -53,5 +55,9 @@ public final class UsuarioTransformer {
 
     public static Usuario usuariOptSinClave(Optional<Usuario> usuario) {
         return usuario.map(UsuarioTransformer::usuarioSinClave).orElse(null);
+    }
+
+    public static List<Usuario> usuariosSinClave(List<Usuario> usuarios) {
+        return usuarios.stream().map(UsuarioTransformer::usuarioSinClave).collect(Collectors.toList());
     }
 }

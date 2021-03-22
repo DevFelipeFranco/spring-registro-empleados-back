@@ -28,10 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -126,5 +123,9 @@ public class AuthService {
                 .usuario(UsuarioTransformer.usuariOptSinClave(usuario))
                 .build();
 
+    }
+
+    public List<Usuario> consultarUsuarios() {
+        return UsuarioTransformer.usuariosSinClave(usuarioRepositorioMySQL.consultarUsuarios());
     }
 }

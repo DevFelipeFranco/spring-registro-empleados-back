@@ -4,8 +4,7 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.comando.Com
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoUsuario;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorLogin;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistrarUsuario;
-import com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant;
-import com.registro.empleados.springregistroempleadosback.dominio.excepciones.PermisoLecturaException;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadirConsultarUsuario;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.AuthService;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.ProcesarImagenUploadService;
@@ -27,9 +26,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
-import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.*;
+import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.FORWARD_SLASH;
+import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.TEMP_PROFILE_IMAGE_BASE_URL;
 
 @RestController
 @RequestMapping(value = "/api/auth")
@@ -40,12 +41,18 @@ public class AuthControlador {
     private final AuthService authService;
     private final ProcesarImagenUploadService procesarImagenUploadService;
     private final ManejadorRegistrarUsuario manejadorRegistrarUsuario;
+    private final ManejadirConsultarUsuario manejadirConsultarUsuario;
     private final ManejadorLogin manejadorLogin;
     private final RefreshTokenServicio refreshTokenServicio;
 
     @GetMapping(value = "/inicio")
     public String inicio() {
         return "Inicio";
+    }
+
+    @GetMapping(value = "/allUsuarios")
+    public ResponseEntity<List<Usuario>> consultarUsuarios() {
+        return ResponseEntity.ok(manejadirConsultarUsuario.ejecutar());
     }
 
     @PostMapping(value = "/signup")
