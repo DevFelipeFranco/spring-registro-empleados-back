@@ -20,7 +20,7 @@ public final class UsuarioTransformer {
 
     }
 
-    private static Usuario usuarioSinClave(Usuario usuario) {
+    public static Usuario usuarioSinClave(Usuario usuario) {
         return Usuario.builder()
                 .conIdUsuario(usuario.getIdUsuario())
                 .conNombres(usuario.getNombres())
@@ -33,6 +33,8 @@ public final class UsuarioTransformer {
                 .conEstado(usuario.getEstado())
                 .conSnNoBloqueado(usuario.getSnNoBloqueado())
                 .conImagenPerfilUrl(usuario.getImagenPerfilUrl())
+                .conCargo(usuario.getCargo())
+                .conCelular(usuario.getCelular())
                 .conRoles(usuario.getRoles())
                 .build();
     }
@@ -50,6 +52,8 @@ public final class UsuarioTransformer {
                 .conEstado(usuario.getEstado())
                 .conSnNoBloqueado(usuario.getSnNoBloqueado())
                 .conImagenPerfilUrl(usuario.getImagenPerfilUrl())
+                .conCargo(usuario.getCargo())
+                .conCelular(usuario.getCelular())
                 .build();
     }
 

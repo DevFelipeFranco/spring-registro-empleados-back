@@ -1,7 +1,10 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.UsuarioRepositorio;
+import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.RolEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +56,19 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
         actualizarFechas(usuarioEncontrado.getFechaUltimoIngreso(), usuarioEncontrado.getFechaUltimoIngresoVisualizacion(), usuarioEncontrado.getIdUsuario());
     }
 
+    @Override
+    default Usuario consultarUsuarioPorId(Long idUsuario) {
+        return findByIdUsuario(idUsuario)
+                .map(UsuarioTransformador::usuarioEntidadToModel)
+                .orElseThrow(() -> new UsuarioNoExisteException("No existe el usuario"));
+    }
+
+    @Override
+    default void actualizarInformacionUsuario(Usuario usuario) {
+        UsuarioEntidad usuarioEntidad = UsuarioTransformador.usuarioModeloToEntidad(usuario);
+        actualizarUsuario(usuarioEntidad.getNombres(), usuarioEntidad.getApellidos(), usuarioEntidad.getCargo(), usuarioEntidad.getCorreoElectronico(), usuarioEntidad.getCelular(), usuarioEntidad.getUsuario(), usuarioEntidad.getEstado(), usuarioEntidad.getSnNoBloqueado(), usuarioEntidad.getIdUsuario());
+    }
+
     Optional<UsuarioEntidad> findByUsuario(String usuario);
     Optional<UsuarioEntidad> findByIdUsuario(Long idUsuario);
 
@@ -66,4 +83,8 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
     @Modifying
     @Query("UPDATE UsuarioEntidad u SET u.fechaUltimoIngreso = ?1, u.fechaUltimoIngresoVisualizacion = ?2 WHERE u.idUsuario = ?3")
     void actualizarFechas(LocalDateTime fechaUltimoIngreso, LocalDateTime fechaUltimoIngresoVisualizacion, Long idUsuario);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE UsuarioEntidad u SET u.nombres = ?1, u.apellidos = ?2, u.cargo = ?3, u.correoElectronico = ?4, u.celular = ?5, u.usuario = ?6, u.estado =?7, u.snNoBloqueado = ?8 WHERE u.idUsuario = ?9")
+    void actualizarUsuario(String nombres, String apellidos, String cargo, String correoElectronico, String celular, String usuario, String estado, String snNoBloqueado, Long idUsuario);
 }

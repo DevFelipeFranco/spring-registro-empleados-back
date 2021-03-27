@@ -40,6 +40,8 @@ public class UsuarioEntidad implements Serializable {
     private LocalDateTime fechaUltimoIngresoVisualizacion;
 
     private String imagenPerfilUrl;
+    private String cargo;
+    private String celular;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(

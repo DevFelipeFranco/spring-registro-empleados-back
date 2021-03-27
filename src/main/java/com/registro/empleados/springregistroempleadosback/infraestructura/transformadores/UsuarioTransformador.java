@@ -24,6 +24,8 @@ public final class UsuarioTransformador {
                 .fechaUltimoIngreso(usuario.getFechaUltimoIngreso())
                 .fechaUltimoIngresoVisualizacion(usuario.getFechaUltimoIngresoVisualizacion())
                 .imagenPerfilUrl(usuario.getImagenPerfilUrl())
+                .cargo(usuario.getCargo())
+                .celular(usuario.getCelular())
                 .roles(RolTransformador.rolesToRolesEntidad(usuario.getRoles()))
                 .build();
     }
@@ -42,6 +44,8 @@ public final class UsuarioTransformador {
                 .conFechaUltimoIngreso(usuarioEntidad.getFechaUltimoIngreso())
                 .conFechaUltimoIngresoVisualizacion(usuarioEntidad.getFechaUltimoIngresoVisualizacion())
                 .conImagenPerfilUrl(usuarioEntidad.getImagenPerfilUrl())
+                .conCargo(usuarioEntidad.getCargo())
+                .conCelular(usuarioEntidad.getCelular())
                 .conRoles(RolTransformador.rolesEntidadToRoles(usuarioEntidad.getRoles()))
                 .build();
     }

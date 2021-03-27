@@ -3,7 +3,6 @@ package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoRefreshToken;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioExisteException;
-import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
@@ -11,7 +10,7 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario
 import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.NotificacionEmail;
-import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
+import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.RolRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.security.JwtProvider;
@@ -25,7 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,6 +40,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final RefreshTokenServicio refreshTokenServicio;
     private final ProcesarImagenUploadService procesarImagenUploadService;
+    private final RolRepositorioMySQL rolRepositorioMySQL;
 
     public Usuario registrarUsuario(Usuario usuarioModelo) {
         existeUsuario(usuarioModelo.getUsuario());
@@ -127,5 +126,28 @@ public class AuthService {
 
     public List<Usuario> consultarUsuarios() {
         return UsuarioTransformer.usuariosSinClave(usuarioRepositorioMySQL.consultarUsuarios());
+    }
+
+    public Usuario consultarUsuarioPorId(Long idUsuario) {
+        return UsuarioTransformer.usuarioSinClave(usuarioRepositorioMySQL.consultarUsuarioPorId(idUsuario));
+    }
+
+    public Usuario actualizarUsuario(Usuario usuarioActualizado) {
+        Usuario usuario = usuarioRepositorioMySQL.consultarUsuarioPorId(usuarioActualizado.getIdUsuario());
+        usuario.setUsuario(usuarioActualizado.getUsuario());
+        usuario.setNombres(usuarioActualizado.getNombres());
+        usuario.setApellidos(usuarioActualizado.getApellidos());
+        usuario.setEmail(usuarioActualizado.getEmail());
+        usuario.setEstado(usuarioActualizado.getEstado());
+        usuario.setSnNoBloqueado(usuarioActualizado.getSnNoBloqueado());
+        usuario.setCargo(usuarioActualizado.getCargo());
+        usuario.setCelular(usuarioActualizado.getCelular());
+        usuario.setRoles(usuarioActualizado.getRoles());
+        usuarioRepositorioMySQL.actualizarInformacionUsuario(usuario);
+        return UsuarioTransformer.usuarioSinClave(usuario);
+    }
+
+    public List<Rol> consultarRoles() {
+        return rolRepositorioMySQL.consultarRoles();
     }
 }

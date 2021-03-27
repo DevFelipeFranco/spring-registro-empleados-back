@@ -32,6 +32,8 @@ public class Usuario {
     private LocalDateTime fechaUltimoIngresoVisualizacion;
 
     private String imagenPerfilUrl;
+    private String cargo;
+    private String celular;
 
     private List<Rol> roles;
 }

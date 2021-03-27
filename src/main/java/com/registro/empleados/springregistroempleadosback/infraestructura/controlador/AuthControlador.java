@@ -4,7 +4,11 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.comando.Com
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoUsuario;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorLogin;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistrarUsuario;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.roles.ManejadorConsultarRoles;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadirConsultarUsuario;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorActualizarUsuario;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorConsultaUsuarioPorId;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.AuthService;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.ProcesarImagenUploadService;
@@ -40,9 +44,12 @@ public class AuthControlador {
 
     private final AuthService authService;
     private final ProcesarImagenUploadService procesarImagenUploadService;
+    private final ManejadorLogin manejadorLogin;
     private final ManejadorRegistrarUsuario manejadorRegistrarUsuario;
     private final ManejadirConsultarUsuario manejadirConsultarUsuario;
-    private final ManejadorLogin manejadorLogin;
+    private final ManejadorActualizarUsuario manejadorActualizarUsuario;
+    private final ManejadorConsultaUsuarioPorId manejadorConsultaUsuarioPorId;
+    private final ManejadorConsultarRoles manejadorConsultarRoles;
     private final RefreshTokenServicio refreshTokenServicio;
 
     @GetMapping(value = "/inicio")
@@ -60,6 +67,11 @@ public class AuthControlador {
         return ResponseEntity.ok(manejadorRegistrarUsuario.ejecutar(comandoUsuario));
     }
 
+    @PutMapping(value = "/actualizarUsuario")
+    public ResponseEntity<Usuario> actualizarUsuario(@RequestBody ComandoUsuario comandoUsuario) {
+        return ResponseEntity.ok(manejadorActualizarUsuario.ejecutar(comandoUsuario));
+    }
+
     @PostMapping(value = "/login")
     public ResponseEntity<Optional<Autenticacion>> login(@RequestBody ComandoUsuario comandoUsuario) {
         return ResponseEntity.ok(manejadorLogin.ejecutar(comandoUsuario));
@@ -74,6 +86,11 @@ public class AuthControlador {
     @PostMapping(value = "/refresh/token")
     public ResponseEntity<Autenticacion> refreshToken(@Valid @RequestBody ComandoRefreshToken refreshToken) {
         return ResponseEntity.ok(authService.refreshToken(refreshToken));
+    }
+
+    @GetMapping(value = "/idUsuario/{idUsuario}")
+    public ResponseEntity<Usuario> consultaUsuarioPorId(@PathVariable("idUsuario") Long idUsuario) {
+        return ResponseEntity.ok(manejadorConsultaUsuarioPorId.ejecutar(idUsuario));
     }
 
     @PostMapping(value = "/imagen/upload")
@@ -101,6 +118,11 @@ public class AuthControlador {
             e.printStackTrace();
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    @GetMapping(value = "/consultarRoles")
+    public ResponseEntity<List<Rol>> consultarRoles() {
+        return ResponseEntity.ok(manejadorConsultarRoles.ejecutar());
     }
 
     @PostMapping(value = "logout")

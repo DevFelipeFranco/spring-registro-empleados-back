@@ -20,4 +20,8 @@ public interface UsuarioRepositorio {
     void actualizarFechaIngreso(Usuario usuarioEncontrado);
 
     List<Usuario> consultarUsuarios();
+
+    Usuario consultarUsuarioPorId(Long idUsuario);
+
+    void actualizarInformacionUsuario(Usuario usuario);
 }
