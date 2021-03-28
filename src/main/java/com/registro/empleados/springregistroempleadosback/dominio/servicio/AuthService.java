@@ -96,7 +96,7 @@ public class AuthService {
 
     private void buscarUsaurioYHabilitar(Token token) {
         token.getUsuario().setEstado(true);
-        usuarioRepositorioMySQL.activarUsuario(UsuarioTransformador.transformBooleanToString(token.getUsuario().getEstado()), token.getIdToken());
+        usuarioRepositorioMySQL.activarUsuario(UsuarioTransformador.transformBooleanToString(token.getUsuario().getEstado()), token.getUsuario().getIdUsuario());
     }
 
     public Optional<Autenticacion> login(Usuario usuario) {
@@ -143,7 +143,8 @@ public class AuthService {
         usuario.setCargo(usuarioActualizado.getCargo());
         usuario.setCelular(usuarioActualizado.getCelular());
         usuario.setRoles(usuarioActualizado.getRoles());
-        usuarioRepositorioMySQL.actualizarInformacionUsuario(usuario);
+        usuarioRepositorioMySQL.registrarUsuario(usuario);
+//        usuarioRepositorioMySQL.actualizarInformacionUsuario(usuario);
         return UsuarioTransformer.usuarioSinClave(usuario);
     }
 

@@ -1,7 +1,5 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,12 +18,8 @@ public class AutorizacionEntidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_AUTORIZACION")
     private Long idAutorizacion;
 
     private String autorizacion;
-
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_ROL")
-    private RolEntidad rolEntidad;
 }

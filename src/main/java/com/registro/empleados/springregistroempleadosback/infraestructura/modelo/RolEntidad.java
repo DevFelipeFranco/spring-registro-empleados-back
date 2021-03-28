@@ -1,6 +1,5 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,10 +24,15 @@ public class RolEntidad implements Serializable {
 
     private String descripcion;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "rolEntidad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {
+            CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "ROL_AUTORIZACION",
+            joinColumns = @JoinColumn(
+                    name = "ID_ROL",
+                    referencedColumnName = "ID_ROL"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "ID_AUTORIZACION",
+                    referencedColumnName = "ID_AUTORIZACION"))
     private List<AutorizacionEntidad> autorizacionesEntidad;
-
-//    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-//    private List<UsuarioEntidad> usuarios;
 }
