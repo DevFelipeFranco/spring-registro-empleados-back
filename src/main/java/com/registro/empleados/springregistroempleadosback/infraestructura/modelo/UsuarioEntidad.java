@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,8 @@ public class UsuarioEntidad implements Serializable {
 
     @Column(name = "USUARIO", unique = true)
     private String usuario;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clave;
 
     private String nombres;
