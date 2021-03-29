@@ -8,6 +8,7 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.r
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadirConsultarUsuario;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorActualizarUsuario;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorConsultaUsuarioPorId;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorEliminarUsuario;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.AuthService;
@@ -50,6 +51,7 @@ public class AuthControlador {
     private final ManejadorActualizarUsuario manejadorActualizarUsuario;
     private final ManejadorConsultaUsuarioPorId manejadorConsultaUsuarioPorId;
     private final ManejadorConsultarRoles manejadorConsultarRoles;
+    private final ManejadorEliminarUsuario manejadorEliminarUsuario;
     private final RefreshTokenServicio refreshTokenServicio;
 
     @GetMapping(value = "/inicio")
@@ -123,6 +125,11 @@ public class AuthControlador {
     @GetMapping(value = "/consultarRoles")
     public ResponseEntity<List<Rol>> consultarRoles() {
         return ResponseEntity.ok(manejadorConsultarRoles.ejecutar());
+    }
+
+    @DeleteMapping(value = "/eliminarUsuario/{idUsuario}")
+    public ResponseEntity<String> eleiminarUsuario(@PathVariable("idUsuario") Long idUsuario) {
+        return ResponseEntity.ok(manejadorEliminarUsuario.ejecutar(idUsuario));
     }
 
     @PostMapping(value = "logout")

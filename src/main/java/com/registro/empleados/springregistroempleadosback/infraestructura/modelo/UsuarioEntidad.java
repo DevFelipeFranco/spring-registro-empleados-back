@@ -57,6 +57,6 @@ public class UsuarioEntidad implements Serializable {
                     referencedColumnName = "ID_ROL"))
     private List<RolEntidad> roles;
 
-//    @OneToOne(mappedBy = "usuarioEntidad", cascade = CascadeType.ALL)
-//    private TokenEntidad tokenEntidad;
+    @OneToOne(mappedBy = "usuarioEntidad", cascade = CascadeType.ALL)
+    private TokenEntidad tokenaEntidad;
 }

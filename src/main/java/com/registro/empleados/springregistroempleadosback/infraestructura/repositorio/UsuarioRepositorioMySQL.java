@@ -69,6 +69,11 @@ public interface UsuarioRepositorioMySQL extends JpaRepository<UsuarioEntidad, L
         actualizarUsuario(usuarioEntidad.getNombres(), usuarioEntidad.getApellidos(), usuarioEntidad.getCargo(), usuarioEntidad.getCorreoElectronico(), usuarioEntidad.getCelular(), usuarioEntidad.getUsuario(), usuarioEntidad.getEstado(), usuarioEntidad.getSnNoBloqueado(), usuarioEntidad.getIdUsuario());
     }
 
+    @Override
+    default void eliminarUsuario(Long idUsuario) {
+        deleteById(idUsuario);
+    }
+
     Optional<UsuarioEntidad> findByUsuario(String usuario);
     Optional<UsuarioEntidad> findByIdUsuario(Long idUsuario);
 

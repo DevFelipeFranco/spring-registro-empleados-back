@@ -24,4 +24,6 @@ public interface UsuarioRepositorio {
     Usuario consultarUsuarioPorId(Long idUsuario);
 
     void actualizarInformacionUsuario(Usuario usuario);
+
+    void eliminarUsuario(Long idUsuario);
 }

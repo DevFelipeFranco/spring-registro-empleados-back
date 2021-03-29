@@ -17,6 +17,7 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.securi
 import com.registro.empleados.springregistroempleadosback.infraestructura.servicio.MailService;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import lombok.AllArgsConstructor;
+import org.aspectj.util.FileUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,8 +26,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.USER_FOLDER;
 
 @Service
 @AllArgsConstructor
@@ -144,11 +150,18 @@ public class AuthService {
         usuario.setCelular(usuarioActualizado.getCelular());
         usuario.setRoles(usuarioActualizado.getRoles());
         usuarioRepositorioMySQL.registrarUsuario(usuario);
-//        usuarioRepositorioMySQL.actualizarInformacionUsuario(usuario);
         return UsuarioTransformer.usuarioSinClave(usuario);
     }
 
     public List<Rol> consultarRoles() {
         return rolRepositorioMySQL.consultarRoles();
+    }
+
+    public String eliminarUsuario(Long idUsuario) {
+        Usuario usuario = consultarUsuarioPorId(idUsuario);
+        usuarioRepositorioMySQL.eliminarUsuario(usuario.getIdUsuario());
+        Path carpetaDeUsuario = Paths.get(USER_FOLDER).resolve(usuario.getUsuario()).toAbsolutePath().normalize();
+        FileUtil.deleteContents(new File(carpetaDeUsuario.toString()));
+        return "Se elimino con exito el usuario: " + usuario.getUsuario();
     }
 }
