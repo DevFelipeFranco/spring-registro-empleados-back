@@ -73,6 +73,11 @@ public class ExceptionHandling implements ErrorController {
         return crearHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(TipoArchivoImgenException.class)
+    public ResponseEntity<HttpResponse> tipoArchivoImgenException(TipoArchivoImgenException exception) {
+        return crearHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
     @ExceptionHandler(UsuarioNoExisteException.class)
     public ResponseEntity<HttpResponse> userNotFoundException(UsuarioNoExisteException exception) {
         return crearHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());

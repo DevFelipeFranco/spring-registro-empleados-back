@@ -1,27 +1,26 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
-import com.registro.empleados.springregistroempleadosback.dominio.excepciones.PermisoLecturaException;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.TipoArchivoImgenException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.*;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.springframework.http.MediaType.*;
 
 @Service
 @AllArgsConstructor
@@ -31,11 +30,11 @@ public class ProcesarImagenUploadService {
     private final UsuarioRepositorioMySQL usuarioRepositorioMySQL;
 
     @Transactional
-    public Usuario uploadImagenPerfil(MultipartFile imagenPerfil, Long id) throws IOException {
+    public Usuario uploadImagenPerfil(MultipartFile imagenPerfil, Long id) throws IOException, TipoArchivoImgenException {
         Usuario usuario = usuarioRepositorioMySQL.buscarUsuarioPorId(id)
                 .orElseThrow(() -> new UsuarioNoExisteException("El usuario no se encuentra registrado en DB"));
 
-        if (imagenPerfil != null) {
+        if (imagenPerfil != null && validarTipoArchivo(imagenPerfil)) {
             Path userFolder = getPath(usuario.getUsuario());
             log.info("######## RUTA A GUARDAR IMAGEN DE PERFIL: " + userFolder);
 
@@ -50,6 +49,13 @@ public class ProcesarImagenUploadService {
         }
         return UsuarioTransformer.usuarioSinClaveNiRoles(usuario);
 
+    }
+
+    private boolean validarTipoArchivo(MultipartFile imagenPerfil) throws TipoArchivoImgenException {
+        if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(imagenPerfil.getContentType())) {
+            throw new TipoArchivoImgenException(imagenPerfil.getOriginalFilename() + " No es un archivo de tipo imagen. Por favor subir un arhivo de tipo imagen");
+        }
+        return true;
     }
 
     private void crearCarpetaPorUsuario(Path userFolder) throws IOException {

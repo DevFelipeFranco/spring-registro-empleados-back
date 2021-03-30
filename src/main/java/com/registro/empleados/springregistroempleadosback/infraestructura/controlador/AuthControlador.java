@@ -9,6 +9,7 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.u
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorActualizarUsuario;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorConsultaUsuarioPorId;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.usuario.ManejadorEliminarUsuario;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.TipoArchivoImgenException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.AuthService;
@@ -96,7 +97,7 @@ public class AuthControlador {
     }
 
     @PostMapping(value = "/imagen/upload")
-    public ResponseEntity<Usuario> upload(@RequestParam("imagenPerfil") MultipartFile imagenPerfil, @RequestParam("id") Long id) throws IOException {
+    public ResponseEntity<Usuario> upload(@RequestParam("imagenPerfil") MultipartFile imagenPerfil, @RequestParam("id") Long id) throws IOException, TipoArchivoImgenException {
         Usuario usuarioActualizado = procesarImagenUploadService.uploadImagenPerfil(imagenPerfil, id);
         return ResponseEntity.ok(usuarioActualizado);
     }
