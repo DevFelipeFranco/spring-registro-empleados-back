@@ -23,6 +23,7 @@ public final class PersonaTransformador {
                 .tipoDocumento(TipoDocumentoTransformador.tipoDocumentoToEntidad(persona.getTipoDocumento()))
                 .usuarioEntidad(UsuarioTransformador.usuarioModeloToEntidad(persona.getUsuario()))
                 .generoEntidad(GeneroTransformador.genetoModeloToEntidad(persona.getGenero()))
+                .fechaCreacion(persona.getFechaIngreso())
                 .build();
     }
 
@@ -41,6 +42,7 @@ public final class PersonaTransformador {
                 .tipoDocumento(TipoDocumentoTransformador.tipoDocumentoEntidadToModelo(personaEntidad.getTipoDocumento()))
                 .usuario(UsuarioTransformador.usuarioEntidadToModel(personaEntidad.getUsuarioEntidad()))
                 .genero(GeneroTransformador.genetoEntidadToModelo(personaEntidad.getGeneroEntidad()))
+                .fechaIngreso(personaEntidad.getFechaCreacion())
                 .build();
     }
 

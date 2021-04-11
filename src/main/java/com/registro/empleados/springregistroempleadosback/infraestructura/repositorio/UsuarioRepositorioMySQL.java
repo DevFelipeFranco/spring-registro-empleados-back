@@ -1,6 +1,7 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.UsuarioRepositorio;

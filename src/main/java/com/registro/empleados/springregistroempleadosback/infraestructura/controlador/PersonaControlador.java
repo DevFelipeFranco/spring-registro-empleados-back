@@ -7,9 +7,11 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.M
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistroPersona;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.genero.ManejadorConsultarGenero;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.tipoDocumento.ManejadorConsultarTipoDocumento;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.EmpleadosContratados;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Genero;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
+import com.registro.empleados.springregistroempleadosback.dominio.servicio.PersonaServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping(value = "/api/persona")
 @AllArgsConstructor
 public class PersonaControlador {
 
+    private final PersonaServicio personaServicio;
     private final ManejadorRegistroPersona manejadorRegistroPersona;
     private final ManejadorConsultarPersonas manejadorConsultarPersonas;
     private final ManejadorActualizarPersona manejadorActualizarPersona;
@@ -52,12 +57,17 @@ public class PersonaControlador {
 
     @PutMapping(value = "")
     public ResponseEntity<Persona> actualizarPersona(@RequestBody ComandoPersona comandoPersona) {
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(manejadorActualizarPersona.ejecutar(comandoPersona));
     }
 
     @DeleteMapping(value = "/{idPersona}")
     public void eliminarPersona(@PathVariable("idPersona") Long idPersona) {
         manejadorEliminarPersona.ejecutar(idPersona);
+    }
+
+    @GetMapping(value = "consultarPersonasContratadasPorMes")
+    public ResponseEntity<List<EmpleadosContratados>> consultarPersonasContratadasPorMes() {
+        return ResponseEntity.ok(personaServicio.consultarPersonasContratadasPorMes());
     }
 }

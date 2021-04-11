@@ -1,10 +1,7 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Genero;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.*;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.GeneroRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.PersonaRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TipoDocumentoMySQL;
@@ -12,8 +9,12 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.reposi
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +28,7 @@ public class PersonaServicio {
     public Persona registrarPersona(Persona persona) {
         Usuario usuario = consultarUsuario(persona.getUsuario().getUsuario());
         persona.setUsuario(usuario);
+        persona.setFechaIngreso(LocalDateTime.now());
         return personaRepositorioMySQL.registrarPersona(persona);
     }
 
@@ -57,5 +59,10 @@ public class PersonaServicio {
     @Cacheable(value = "genero")
     public List<Genero> consultarGenero() {
         return generoRepositorioMySQL.consultarGenero();
+    }
+
+     @Transactional
+    public List<EmpleadosContratados> consultarPersonasContratadasPorMes() {
+        return personaRepositorioMySQL.consultarCantidadEmpleadosContratadosPorMes().stream().map(EmpleadosContratados::new).collect(Collectors.toList());
     }
 }

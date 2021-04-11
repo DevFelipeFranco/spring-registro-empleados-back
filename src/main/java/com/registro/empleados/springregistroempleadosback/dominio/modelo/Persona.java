@@ -28,4 +28,6 @@ public class Persona {
     private TipoDocumento tipoDocumento;
     private Usuario usuario;
     private Genero genero;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime fechaIngreso;
 }

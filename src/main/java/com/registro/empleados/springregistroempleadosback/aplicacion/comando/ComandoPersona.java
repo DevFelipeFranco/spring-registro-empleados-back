@@ -26,4 +26,5 @@ public class ComandoPersona {
     private ComandoTipoDocumento tipoDocumento;
     private ComandoUsuario usuario;
     private ComandoGenero genero;
+    private LocalDateTime fechaIngreso;
 }
