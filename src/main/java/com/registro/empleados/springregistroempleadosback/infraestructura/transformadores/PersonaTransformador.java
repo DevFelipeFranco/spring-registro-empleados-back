@@ -4,9 +4,15 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.PersonaEntidad;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ClienteTransformador.modelToEntidad;
+import static java.util.Objects.isNull;
+
 public final class PersonaTransformador {
+
+    private PersonaTransformador() {}
 
     public static PersonaEntidad personaToPersonaEntidad(Persona persona) {
         return PersonaEntidad.builder()
@@ -24,6 +30,7 @@ public final class PersonaTransformador {
                 .usuarioEntidad(UsuarioTransformador.usuarioModeloToEntidad(persona.getUsuario()))
                 .generoEntidad(GeneroTransformador.genetoModeloToEntidad(persona.getGenero()))
                 .fechaCreacion(persona.getFechaIngreso())
+                .clienteEntidad(persona.getProyecto() != null ? modelToEntidad(persona.getProyecto()) : null)
                 .build();
     }
 
@@ -43,6 +50,7 @@ public final class PersonaTransformador {
                 .usuario(UsuarioTransformador.usuarioEntidadToModel(personaEntidad.getUsuarioEntidad()))
                 .genero(GeneroTransformador.genetoEntidadToModelo(personaEntidad.getGeneroEntidad()))
                 .fechaIngreso(personaEntidad.getFechaCreacion())
+                .proyecto(!isNull(personaEntidad.getClienteEntidad()) ? modelToEntidad(personaEntidad.getClienteEntidad()) : null)
                 .build();
     }
 

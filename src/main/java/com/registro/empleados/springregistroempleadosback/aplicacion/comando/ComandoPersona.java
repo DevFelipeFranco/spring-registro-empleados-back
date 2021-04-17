@@ -27,4 +27,5 @@ public class ComandoPersona {
     private ComandoUsuario usuario;
     private ComandoGenero genero;
     private LocalDateTime fechaIngreso;
+    private ComandoCliente proyecto;
 }

@@ -30,4 +30,5 @@ public class Persona {
     private Genero genero;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaIngreso;
+    private Cliente proyecto;
 }

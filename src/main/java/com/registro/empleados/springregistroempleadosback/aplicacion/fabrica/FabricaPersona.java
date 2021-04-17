@@ -5,6 +5,9 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona
 
 public final class FabricaPersona {
 
+    private FabricaPersona() {
+    }
+
     public static Persona comandoPersonaToPersona(ComandoPersona comandoPersona) {
         return Persona.builder()
                 .idPersona(comandoPersona.getIdPersona())
@@ -21,6 +24,7 @@ public final class FabricaPersona {
                 .usuario(FabricaUsuario.comandoUsuarioToModelo(comandoPersona.getUsuario()))
                 .genero(FabricaGenero.comandoGeneroToModelo(comandoPersona.getGenero()))
                 .fechaIngreso(comandoPersona.getFechaIngreso())
+                .proyecto(comandoPersona.getProyecto() != null ? FabricaCliente.comandoClienteToModel(comandoPersona.getProyecto()) : null)
                 .build();
 
     }

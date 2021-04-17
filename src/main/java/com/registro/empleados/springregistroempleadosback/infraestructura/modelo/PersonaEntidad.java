@@ -55,6 +55,10 @@ public class PersonaEntidad implements Serializable {
     @Column(name = "FECHA_CREACION", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CLIENTE")
+    private ClienteEntidad clienteEntidad;
+
     public int getEdad() {
         return Period.between(fechaNacimiento.toLocalDate(), LocalDate.now()).getYears();
     }

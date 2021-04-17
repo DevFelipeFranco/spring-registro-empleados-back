@@ -1,12 +1,10 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.EmpleadosContratados;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.PersonaRepositorio;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.PersonaEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.PersonaTransformador;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
