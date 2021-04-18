@@ -83,6 +83,10 @@ public class ExceptionHandling implements ErrorController {
         return crearHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(ExistePersonaRegistradaPorUsuarioException.class)
+    public ResponseEntity<HttpResponse> userNotFoundException(ExistePersonaRegistradaPorUsuarioException exception) {
+        return crearHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
 //    @ExceptionHandler(NoHandlerFoundException.class)
 //    public ResponseEntity<HttpResponse> noHandlerFoundException(NoHandlerFoundException exception) {
 //        return crearHttpResponse(HttpStatus.BAD_REQUEST, "Esta pagina no funciona");

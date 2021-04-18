@@ -1,15 +1,15 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoRefreshToken;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.ExistePersonaRegistradaPorUsuarioException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.NoExisteTokenException;
 import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioExisteException;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Rol;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Token;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.UsuarioPrincipal;
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.UsuarioNoExisteException;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.*;
 import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.Autenticacion;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.NotificacionEmail;
+import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.PersonaRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.RolRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TokenRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -33,6 +34,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.registro.empleados.springregistroempleadosback.dominio.constants.FileConstant.USER_FOLDER;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 @AllArgsConstructor
@@ -40,6 +42,7 @@ public class AuthService {
 
     private final UsuarioRepositorioMySQL usuarioRepositorioMySQL;
     private final TokenRepositorioMySQL tokenRepositorioMySQL;
+    private final PersonaRepositorioMySQL personaRepositorioMySQL;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
@@ -159,9 +162,31 @@ public class AuthService {
 
     public String eliminarUsuario(Long idUsuario) {
         Usuario usuario = consultarUsuarioPorId(idUsuario);
+//        boolean existePersonaregistrada = personaRepositorioMySQL.consultarPersonarPorUsuario(usuario);
+        if(!isEmpty(personaRepositorioMySQL.consultarPersonarPorUsuario(usuario))) {
+            throw new ExistePersonaRegistradaPorUsuarioException("No se puede eliminar el usuario ya que tiene personas registradas a su nombre, por favor transfiera las personas a otro usuario registrado en el sistema.");
+        }
+        eliminarUsuario(usuario);
+//        usuarioRepositorioMySQL.eliminarUsuario(usuario.getIdUsuario());
+//        Path carpetaDeUsuario = Paths.get(USER_FOLDER).resolve(usuario.getUsuario()).toAbsolutePath().normalize();
+//        FileUtil.deleteContents(new File(carpetaDeUsuario.toString()));
+        return "Se elimino con exito el usuario: " + usuario.getUsuario();
+    }
+
+    public String eliminarYTransferirUsuario(Long idUsuario, String usuario) {
+        Usuario usuarioActual = consultarUsuarioPorId(idUsuario);
+        Usuario usuarioNuevo = usuarioRepositorioMySQL.buscarUsuario(usuario).orElseThrow(() -> new UsuarioNoExisteException("No se encontro el usuario"));
+        personaRepositorioMySQL.consultarPersonarPorUsuario(usuarioActual).forEach(persona -> {
+            persona.setUsuario(usuarioNuevo);
+            personaRepositorioMySQL.registrarPersona(persona);
+        });
+        eliminarUsuario(usuarioActual);
+        return "Se elimino con exito el usuario: " + usuarioActual.getUsuario();
+    }
+
+    private void eliminarUsuario(Usuario usuario) {
         usuarioRepositorioMySQL.eliminarUsuario(usuario.getIdUsuario());
         Path carpetaDeUsuario = Paths.get(USER_FOLDER).resolve(usuario.getUsuario()).toAbsolutePath().normalize();
         FileUtil.deleteContents(new File(carpetaDeUsuario.toString()));
-        return "Se elimino con exito el usuario: " + usuario.getUsuario();
     }
 }

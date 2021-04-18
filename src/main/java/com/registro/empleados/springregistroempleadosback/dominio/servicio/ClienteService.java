@@ -1,7 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cliente;
-import com.registro.empleados.springregistroempleadosback.dominio.transformadores.UsuarioTransformer;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.ClienteRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import lombok.AllArgsConstructor;

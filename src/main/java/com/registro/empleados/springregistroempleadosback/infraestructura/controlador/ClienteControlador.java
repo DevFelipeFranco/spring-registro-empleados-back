@@ -5,7 +5,6 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.c
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.cliente.ManejadorCrearClientes;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cliente;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
