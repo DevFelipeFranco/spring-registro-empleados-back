@@ -5,6 +5,8 @@ import com.registro.empleados.springregistroempleadosback.dominio.repositorio.Cl
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.ClienteEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ClienteTransformador;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +28,14 @@ public interface ClienteRepositorioMySQL extends JpaRepository<ClienteEntidad, L
         return entidadToModelo(save(clienteEntidad));
     }
 
+    @Override
+    default void eliminarCliente(Long idCliente) {
+        eliminadoLogicoCliente(idCliente);
+    }
+
     List<ClienteEntidad> findBySnProyectoActivo(String esActivo);
+
+    @Modifying
+    @Query("UPDATE ClienteEntidad c SET c.snProyectoActivo = 'N' WHERE c.idCliente = ?1")
+    void eliminadoLogicoCliente(Long idCliente);
 }

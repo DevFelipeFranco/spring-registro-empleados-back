@@ -21,4 +21,8 @@ public class ClienteService {
     public Cliente crearCliente(Cliente cliente) {
         return clienteRepositorioMySQL.crearCliente(cliente);
     }
+
+    public void eliminarCliente(Long idCliente) {
+        clienteRepositorioMySQL.eliminarCliente(idCliente);
+    }
 }

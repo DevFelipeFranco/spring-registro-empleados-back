@@ -9,4 +9,6 @@ public interface ClienteRepositorio {
     List<Cliente> consultarClientes(String esActivo);
 
     Cliente crearCliente(Cliente cliente);
+
+    void eliminarCliente(Long idCliente);
 }
