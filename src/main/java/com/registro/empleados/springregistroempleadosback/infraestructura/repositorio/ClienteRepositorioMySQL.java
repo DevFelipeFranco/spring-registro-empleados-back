@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ClienteTransformador.entidadToModelo;
-import static com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ClienteTransformador.modelToEntidad;
+import static com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.ClienteTransformador.*;
 
 @Repository
 public interface ClienteRepositorioMySQL extends JpaRepository<ClienteEntidad, Long>, ClienteRepositorio {
@@ -33,7 +33,13 @@ public interface ClienteRepositorioMySQL extends JpaRepository<ClienteEntidad, L
         eliminadoLogicoCliente(idCliente);
     }
 
+    @Override
+    default Optional<Cliente> consultarNombreClienteYProyecto(String nombreCliente, String nombreProyecto) {
+        return entidadToModeloOpt(findByNombreClienteAndNombreProyecto(nombreCliente, nombreProyecto));
+    }
+
     List<ClienteEntidad> findBySnProyectoActivo(String esActivo);
+    Optional<ClienteEntidad> findByNombreClienteAndNombreProyecto(String nombreCliente, String nombreProyecto);
 
     @Modifying
     @Query("UPDATE ClienteEntidad c SET c.snProyectoActivo = 'N' WHERE c.idCliente = ?1")

@@ -4,6 +4,7 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cliente
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.ClienteEntidad;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador.transformBooleanToString;
@@ -37,6 +38,18 @@ public final class ClienteTransformador {
                 .cantidadTrabajadores(clienteEntidad.getCantidadTrabajadores())
                 .estadoProyecto(transformStringToBoolean(clienteEntidad.getSnProyectoActivo()))
                 .build();
+    }
+
+    public static Optional<Cliente> entidadToModeloOpt(Optional<ClienteEntidad> clienteEntidad) {
+        return clienteEntidad.map(cliente -> Cliente.builder()
+                .idCliente(cliente.getIdCliente())
+                .nombreCliente(cliente.getNombreCliente())
+                .nombreProyecto(cliente.getNombreProyecto())
+                .avanceProyecto(cliente.getAvanceProyecto())
+                .descripcion(cliente.getDescripcion())
+                .cantidadTrabajadores(cliente.getCantidadTrabajadores())
+                .estadoProyecto(transformStringToBoolean(cliente.getSnProyectoActivo()))
+                .build());
     }
 
     public static List<Cliente> entidadToModelo(List<ClienteEntidad> clientesEntidad) {

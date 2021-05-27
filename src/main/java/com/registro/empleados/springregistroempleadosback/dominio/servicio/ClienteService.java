@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.dominio.servicio;
 
+import com.registro.empleados.springregistroempleadosback.dominio.excepciones.ClienteNoExisteException;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cliente;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.ClienteRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
@@ -24,5 +25,11 @@ public class ClienteService {
 
     public void eliminarCliente(Long idCliente) {
         clienteRepositorioMySQL.eliminarCliente(idCliente);
+    }
+
+    public Cliente actualizarCliente(Cliente cliente) {
+        return clienteRepositorioMySQL.consultarNombreClienteYProyecto(cliente.getNombreCliente(), cliente.getNombreProyecto())
+                .map(aa -> clienteRepositorioMySQL.crearCliente(cliente))
+                .orElseThrow(() -> new ClienteNoExisteException("No se encontro el cliente con nombre " + cliente.getNombreCliente()));
     }
 }

@@ -7,10 +7,7 @@ import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.M
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorRegistroPersona;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.genero.ManejadorConsultarGenero;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.tipoDocumento.ManejadorConsultarTipoDocumento;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.EmpleadosContratados;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Genero;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
-import com.registro.empleados.springregistroempleadosback.dominio.modelo.TipoDocumento;
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.*;
 import com.registro.empleados.springregistroempleadosback.dominio.servicio.PersonaServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -66,8 +63,8 @@ public class PersonaControlador {
         manejadorEliminarPersona.ejecutar(idPersona);
     }
 
-    @GetMapping(value = "consultarPersonasContratadasPorMes")
-    public ResponseEntity<List<EmpleadosContratados>> consultarPersonasContratadasPorMes() {
+    @GetMapping(value = "/consultarPersonasContratadasPorMes")
+    public ResponseEntity<List<CantidadEmpleadosContratadosMes>> consultarPersonasContratadasPorMes() {
         return ResponseEntity.ok(personaServicio.consultarPersonasContratadasPorMes());
     }
 }

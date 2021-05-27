@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,8 +62,8 @@ public class PersonaServicio {
         return generoRepositorioMySQL.consultarGenero();
     }
 
-     @Transactional
-    public List<EmpleadosContratados> consultarPersonasContratadasPorMes() {
-        return personaRepositorioMySQL.consultarCantidadEmpleadosContratadosPorMes().stream().map(EmpleadosContratados::new).collect(Collectors.toList());
+    @Transactional
+    public List<CantidadEmpleadosContratadosMes> consultarPersonasContratadasPorMes() {
+        return personaRepositorioMySQL.consultarCantidadEmpleadosContratadosPorMesTest();
     }
 }

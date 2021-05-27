@@ -2,9 +2,11 @@ package com.registro.empleados.springregistroempleadosback.infraestructura.contr
 
 import com.registro.empleados.springregistroempleadosback.aplicacion.comando.ComandoCliente;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.ManejadorEliminarClientes;
+import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.cliente.ManejadorActualizarCliente;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.cliente.ManejadorConsultarClientes;
 import com.registro.empleados.springregistroempleadosback.aplicacion.manejador.cliente.ManejadorCrearClientes;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cliente;
+import com.sun.mail.iap.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ public class ClienteControlador {
 
     private final ManejadorConsultarClientes manejadorConsultarClientes;
     private final ManejadorCrearClientes manejadorCrearClientes;
+    private final ManejadorActualizarCliente manejadorActualizarCliente;
     private final ManejadorEliminarClientes manejadorEliminarClientes;
 
     @GetMapping
@@ -31,6 +34,11 @@ public class ClienteControlador {
     public ResponseEntity<Cliente> crearCliente(@RequestBody ComandoCliente comandoCliente) {
         return ResponseEntity.status(CREATED)
                 .body(manejadorCrearClientes.ejecutar(comandoCliente));
+    }
+
+    @PutMapping
+    public ResponseEntity<Cliente> actualizarCliente(@RequestBody ComandoCliente comandoCliente) {
+        return ResponseEntity.ok(manejadorActualizarCliente.ejecutar(comandoCliente));
     }
 
     @DeleteMapping("/{idCliente}")

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.Date;
 
 @Entity
 @Table(name = "PERSONAS", schema = "DB_REGISTRO_EMPLEADOS")

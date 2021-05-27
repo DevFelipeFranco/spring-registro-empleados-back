@@ -1,5 +1,6 @@
 package com.registro.empleados.springregistroempleadosback.infraestructura.repositorio;
 
+import com.registro.empleados.springregistroempleadosback.dominio.modelo.CantidadEmpleadosContratadosMes;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.PersonaRepositorio;
@@ -41,6 +42,9 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
 
     @Query(value = "SELECT count(*) AS cantidad, DATE_FORMAT(FECHA_CREACION, '%Y/%m/%d') AS fechaIngreso FROM DB_REGISTRO_EMPLEADOS.PERSONAS GROUP BY DATE_FORMAT(FECHA_CREACION, '%m/%Y')", nativeQuery = true)
     List<Map<String, Object>> consultarCantidadEmpleadosContratadosPorMes();
+
+    @Query(value = "SELECT count(*) AS cantidad, DATE_FORMAT(FECHA_CREACION, '%Y/%m/%d') AS fechaIngreso FROM DB_REGISTRO_EMPLEADOS.PERSONAS GROUP BY DATE_FORMAT(FECHA_CREACION, '%m/%Y')", nativeQuery = true)
+    List<CantidadEmpleadosContratadosMes> consultarCantidadEmpleadosContratadosPorMesTest();
 
     List<PersonaEntidad> findByUsuarioEntidad(UsuarioEntidad usuarioEntidad);
 }
