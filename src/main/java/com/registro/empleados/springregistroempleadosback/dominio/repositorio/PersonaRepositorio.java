@@ -10,7 +10,7 @@ public interface PersonaRepositorio {
 
     Persona registrarPersona(Persona persona);
 
-    List<Persona> consultarPersonas();
+    List<Persona> consultarPersonas(String esActivo);
 
     void eliminarPersonaPorId(Long idPersona);
 

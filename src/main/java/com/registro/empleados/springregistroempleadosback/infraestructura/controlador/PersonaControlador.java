@@ -32,8 +32,8 @@ public class PersonaControlador {
     private final ManejadorConsultarGenero manejadorConsultarGenero;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<Persona>> consultarPersonas() {
-        return ResponseEntity.ok(manejadorConsultarPersonas.ejecutar());
+    public ResponseEntity<List<Persona>> consultarPersonas(@RequestParam(value = "esActivo", required = false, defaultValue = "true") boolean esActivo) {
+        return ResponseEntity.ok(manejadorConsultarPersonas.ejecutar(esActivo));
     }
 
     @GetMapping(value = "/tipoDocumento")

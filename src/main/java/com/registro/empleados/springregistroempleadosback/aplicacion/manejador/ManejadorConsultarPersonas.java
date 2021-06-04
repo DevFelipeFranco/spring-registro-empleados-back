@@ -15,8 +15,8 @@ public class ManejadorConsultarPersonas {
     private final PersonaServicio personaServicio;
 
     @Transactional
-    public List<Persona> ejecutar() {
-        return personaServicio.consultarPersonas();
+    public List<Persona> ejecutar(Boolean esActivo) {
+        return personaServicio.consultarPersonas(esActivo);
     }
 
 }

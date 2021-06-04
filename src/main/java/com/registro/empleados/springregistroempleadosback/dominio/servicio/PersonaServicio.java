@@ -6,6 +6,7 @@ import com.registro.empleados.springregistroempleadosback.infraestructura.reposi
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.PersonaRepositorioMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.TipoDocumentoMySQL;
 import com.registro.empleados.springregistroempleadosback.infraestructura.repositorio.UsuarioRepositorioMySQL;
+import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,8 @@ public class PersonaServicio {
         return personaRepositorioMySQL.registrarPersona(persona);
     }
 
-    public List<Persona> consultarPersonas() {
-        return personaRepositorioMySQL.consultarPersonas();
+    public List<Persona> consultarPersonas(Boolean esActivo) {
+        return personaRepositorioMySQL.consultarPersonas(UsuarioTransformador.transformBooleanToString(esActivo));
     }
 
     public Persona actualizarPersona(Persona persona) {
@@ -62,7 +63,6 @@ public class PersonaServicio {
         return generoRepositorioMySQL.consultarGenero();
     }
 
-    @Transactional
     public List<CantidadEmpleadosContratadosMes> consultarPersonasContratadasPorMes() {
         return personaRepositorioMySQL.consultarCantidadEmpleadosContratadosPorMesTest();
     }

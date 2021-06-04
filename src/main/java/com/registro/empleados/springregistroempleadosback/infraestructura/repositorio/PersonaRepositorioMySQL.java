@@ -4,11 +4,13 @@ import com.registro.empleados.springregistroempleadosback.dominio.modelo.Cantida
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Persona;
 import com.registro.empleados.springregistroempleadosback.dominio.modelo.Usuario;
 import com.registro.empleados.springregistroempleadosback.dominio.repositorio.PersonaRepositorio;
+import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.ClienteEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.PersonaEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.modelo.UsuarioEntidad;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.PersonaTransformador;
 import com.registro.empleados.springregistroempleadosback.infraestructura.transformadores.UsuarioTransformador;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +27,8 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
     }
 
     @Override
-    default List<Persona> consultarPersonas() {
-        return PersonaTransformador.listaPersonasEntidadToModelo(findAll());
+    default List<Persona> consultarPersonas(String esActivo) {
+        return PersonaTransformador.listaPersonasEntidadToModelo(findBySnPersonaActiva(esActivo));
     }
 
     @Override
@@ -37,7 +39,7 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
 
     @Override
     default void eliminarPersonaPorId(Long idPersona) {
-        deleteById(idPersona);
+        eliminadoLogicoPersona(idPersona);
     }
 
     @Query(value = "SELECT count(*) AS cantidad, DATE_FORMAT(FECHA_CREACION, '%Y/%m/%d') AS fechaIngreso FROM DB_REGISTRO_EMPLEADOS.PERSONAS GROUP BY DATE_FORMAT(FECHA_CREACION, '%m/%Y')", nativeQuery = true)
@@ -46,5 +48,10 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
     @Query(value = "SELECT count(*) AS cantidad, DATE_FORMAT(FECHA_CREACION, '%Y/%m/%d') AS fechaIngreso FROM DB_REGISTRO_EMPLEADOS.PERSONAS GROUP BY DATE_FORMAT(FECHA_CREACION, '%m/%Y')", nativeQuery = true)
     List<CantidadEmpleadosContratadosMes> consultarCantidadEmpleadosContratadosPorMesTest();
 
+    @Modifying
+    @Query("UPDATE PersonaEntidad c SET c.snPersonaActiva = 'N' WHERE c.idPersona = ?1")
+    void eliminadoLogicoPersona(Long idPersona);
+
+    List<PersonaEntidad> findBySnPersonaActiva(String esActivo);
     List<PersonaEntidad> findByUsuarioEntidad(UsuarioEntidad usuarioEntidad);
 }

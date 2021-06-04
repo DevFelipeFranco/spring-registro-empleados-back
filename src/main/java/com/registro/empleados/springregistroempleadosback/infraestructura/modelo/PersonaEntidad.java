@@ -60,6 +60,9 @@ public class PersonaEntidad implements Serializable {
     @JoinColumn(name = "ID_CLIENTE")
     private ClienteEntidad clienteEntidad;
 
+    @Column(name = "SNPERSONA_ACTIVA")
+    private String snPersonaActiva;
+
     public int getEdad() {
         return Period.between(fechaNacimiento.toLocalDate(), LocalDate.now()).getYears();
     }
