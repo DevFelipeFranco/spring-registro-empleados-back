@@ -14,6 +14,7 @@ public final class FabricaCliente {
                 .descripcion(comandoCliente.getDescripcion())
                 .cantidadTrabajadores(comandoCliente.getCantidadTrabajadores())
                 .estadoProyecto(comandoCliente.getEstadoProyecto())
+                .cantidadSprint(comandoCliente.getCantidadSprint())
                 .build();
     }
 }

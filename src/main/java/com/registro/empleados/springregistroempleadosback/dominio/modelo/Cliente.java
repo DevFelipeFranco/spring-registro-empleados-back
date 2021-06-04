@@ -18,4 +18,5 @@ public class Cliente {
     private String descripcion;
     private Long cantidadTrabajadores;
     private Boolean estadoProyecto;
+    private Long cantidadSprint;
 }

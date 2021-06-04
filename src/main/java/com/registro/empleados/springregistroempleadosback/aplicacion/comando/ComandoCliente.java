@@ -18,4 +18,5 @@ public class ComandoCliente {
     private String descripcion;
     private Long cantidadTrabajadores;
     private Boolean estadoProyecto;
+    private Long cantidadSprint;
 }

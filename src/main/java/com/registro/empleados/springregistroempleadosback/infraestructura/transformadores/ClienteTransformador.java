@@ -25,6 +25,7 @@ public final class ClienteTransformador {
                 .descripcion(cliente.getDescripcion())
                 .cantidadTrabajadores(cliente.getCantidadTrabajadores())
                 .snProyectoActivo(transformBooleanToString(cliente.getEstadoProyecto()))
+                .cantidadSprint(cliente.getCantidadSprint())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public final class ClienteTransformador {
                 .descripcion(clienteEntidad.getDescripcion())
                 .cantidadTrabajadores(clienteEntidad.getCantidadTrabajadores())
                 .estadoProyecto(transformStringToBoolean(clienteEntidad.getSnProyectoActivo()))
+                .cantidadSprint(clienteEntidad.getCantidadSprint())
                 .build();
     }
 

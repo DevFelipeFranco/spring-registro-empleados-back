@@ -31,4 +31,6 @@ public class ClienteEntidad implements Serializable {
     private String snProyectoActivo;
 
     private LocalDateTime fechaRegistro;
+
+    private Long cantidadSprint;
 }
