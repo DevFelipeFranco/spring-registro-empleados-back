@@ -12,7 +12,7 @@ public interface PersonaRepositorio {
 
     List<Persona> consultarPersonas(String esActivo);
 
-    void eliminarPersonaPorId(Long idPersona);
+    void eliminarPersonaPorId(Long idPersona, String motivo);
 
     List<Persona> consultarPersonarPorUsuario(Usuario usuario);
 }

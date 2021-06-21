@@ -49,8 +49,8 @@ public class PersonaServicio {
                 .orElseThrow(() -> new UsuarioNoExisteException("No existe el usuario: " + usuario));
     }
 
-    public void eliminarPersona(Long idPersona) {
-        personaRepositorioMySQL.eliminarPersonaPorId(idPersona);
+    public void eliminarPersona(Long idPersona, String motivo) {
+        personaRepositorioMySQL.eliminarPersonaPorId(idPersona, motivo);
     }
 
     @Cacheable(value = "tipoDocumento")

@@ -38,8 +38,8 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
     }
 
     @Override
-    default void eliminarPersonaPorId(Long idPersona) {
-        eliminadoLogicoPersona(idPersona);
+    default void eliminarPersonaPorId(Long idPersona, String motivo) {
+        eliminadoLogicoPersona(motivo, idPersona);
     }
 
     @Query(value = "SELECT count(*) AS cantidad, DATE_FORMAT(FECHA_CREACION, '%Y/%m/%d') AS fechaIngreso FROM DB_REGISTRO_EMPLEADOS.PERSONAS GROUP BY DATE_FORMAT(FECHA_CREACION, '%m/%Y')", nativeQuery = true)
@@ -49,8 +49,8 @@ public interface PersonaRepositorioMySQL extends JpaRepository<PersonaEntidad, L
     List<CantidadEmpleadosContratadosMes> consultarCantidadEmpleadosContratadosPorMesTest();
 
     @Modifying
-    @Query("UPDATE PersonaEntidad c SET c.snPersonaActiva = 'N' WHERE c.idPersona = ?1")
-    void eliminadoLogicoPersona(Long idPersona);
+    @Query("UPDATE PersonaEntidad c SET c.snPersonaActiva = 'N', c.motivoEliminacion = ?1 WHERE c.idPersona = ?2")
+    void eliminadoLogicoPersona(String motivo, Long idPersona);
 
     List<PersonaEntidad> findBySnPersonaActiva(String esActivo);
     List<PersonaEntidad> findByUsuarioEntidad(UsuarioEntidad usuarioEntidad);

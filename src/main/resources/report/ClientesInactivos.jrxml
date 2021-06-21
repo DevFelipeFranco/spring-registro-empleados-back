@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClientesInactivos" pageWidth="730" pageHeight="595" orientation="Landscape" columnWidth="690" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13aa442c-69cc-42c5-8326-68259bf4610f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db_registro_empleados"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT CL.ID_CLIENTE,
+       CL.NOMBRE_CLIENTE,
+       CL.NOMBRE_PROYECTO,
+       (CL.AVANCE_PROYECTO / 100) AS AVANCE_PROYECTO,
+       CL.DESCRIPCION_PROYECTO,
+       CL.CANTIDAD_TRABAJADORES,
+       CL.SNPROYECTO_ACTIVO,
+       CL.FECHA_REGISTRO,
+       CL.cantidad_sprint
+FROM DB_REGISTRO_EMPLEADOS.CLIENTES CL
+WHERE CL.SNPROYECTO_ACTIVO = 'S']]>
+	</queryString>
+	<field name="ID_CLIENTE" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="ID_CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID_CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMBRE_CLIENTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMBRE_CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRE_CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMBRE_PROYECTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMBRE_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRE_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AVANCE_PROYECTO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="AVANCE_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="AVANCE_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRIPCION_PROYECTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DESCRIPCION_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="DESCRIPCION_PROYECTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CANTIDAD_TRABAJADORES" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="CANTIDAD_TRABAJADORES"/>
+		<property name="com.jaspersoft.studio.field.label" value="CANTIDAD_TRABAJADORES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SNPROYECTO_ACTIVO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SNPROYECTO_ACTIVO"/>
+		<property name="com.jaspersoft.studio.field.label" value="SNPROYECTO_ACTIVO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FECHA_REGISTRO" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="FECHA_REGISTRO"/>
+		<property name="com.jaspersoft.studio.field.label" value="FECHA_REGISTRO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad_sprint" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="cantidad_sprint"/>
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_sprint"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="690" height="79" uuid="23e76da3-83aa-4a2d-aee1-38ee246d7236"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTES INACTIVOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="470" y="5" width="220" height="20" uuid="03acaaa6-e92d-41ff-af40-0f09cbb5843d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="130" height="20" uuid="bf22227e-6a3f-47b4-97d4-bed6d7ef0345">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54921d59-adaa-4a38-9943-388fabf1c0f7"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="120" height="20" uuid="bed39dd1-8a36-4b41-a124-7b37519ca50e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f6e7b3d-2dd9-40cf-8af7-3536188a22c8"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="150" height="20" uuid="b09f619f-d331-44ee-a2c6-12315afc068c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d66c476-a8df-4ed5-8152-4fa1cdb17be6"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AVANCE PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="160" height="20" uuid="f8d2da3c-dc5e-47af-8412-e835592f27de">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8d38455-cc15-40a3-92fb-b3b4fc157c57"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD TRABAJADORES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="0" width="130" height="20" uuid="200a9530-97c7-4cc1-87d7-bc3c4e7e72a1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f20162d8-2a79-4b00-85c3-7f5a4d554087"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD SPRINT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="130" height="30" uuid="a18d8d41-7ebc-4db5-a340-587cfd7e1f5e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54921d59-adaa-4a38-9943-388fabf1c0f7"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE_CLIENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="120" height="30" uuid="315e2c26-384d-4b77-bf48-cc8072e18208">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f6e7b3d-2dd9-40cf-8af7-3536188a22c8"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE_PROYECTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.##%">
+				<reportElement x="250" y="0" width="150" height="30" uuid="48e470d6-4c9a-4f6a-a0e9-20da41c7696e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d66c476-a8df-4ed5-8152-4fa1cdb17be6"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{AVANCE_PROYECTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="160" height="30" uuid="5832c7a4-09f5-4935-869c-cb9d4776a1df">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8d38455-cc15-40a3-92fb-b3b4fc157c57"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CANTIDAD_TRABAJADORES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="560" y="0" width="130" height="30" uuid="3f6c0092-6fbf-4d1a-9efe-6f25c6b3662f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f20162d8-2a79-4b00-85c3-7f5a4d554087"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidad_sprint}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

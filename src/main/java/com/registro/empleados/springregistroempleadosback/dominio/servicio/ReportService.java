@@ -23,10 +23,10 @@ public class ReportService {
     private final EntityManager entityManager;
 
     @Transactional
-    public JasperPrint processReport() {
+    public JasperPrint processReport(String nombreReporte) {
         try {
             Connection connection = loadConnection(entityManager);
-            JasperReport jasperReport = compileReport();
+            JasperReport jasperReport = compileReport(nombreReporte);
             return JasperFillManager.fillReport(jasperReport, null, connection);
         } catch (JRException e) {
             e.printStackTrace();
@@ -34,9 +34,9 @@ public class ReportService {
         }
     }
 
-    private JasperReport compileReport() {
+    private JasperReport compileReport(String nombreReporte) {
         try {
-            File fileReport = ResourceUtils.getFile("classpath:report/EmpleadosActivosYUsuarios.jrxml");
+            File fileReport = ResourceUtils.getFile("classpath:report/" + nombreReporte + ".jrxml");
             return JasperCompileManager.compileReport(fileReport.getAbsolutePath());
         } catch (JRException jre) {
             log.error("Error compilando el reporte: ", jre.getMessage());

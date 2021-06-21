@@ -23,16 +23,17 @@ import java.io.IOException;
 public class ReportController {
 
     private final ReportService reportService;
+    JRXlsxExporter exporter;
 
-    @GetMapping(value = "/rptNotasExcel")
-    public void rptNotas(HttpServletResponse response) {
+    @GetMapping(value = "/rptPersonasActivasExcel")
+    public void rptPersonasActivas(HttpServletResponse response) {
         try {
             response.setHeader("Content-Disposition", "attachment;filename=UsuariosActivos.xlsx");
             response.setContentType("application/octet-stream");
 
-            JasperPrint jasperPrint = reportService.processReport();
+            JasperPrint jasperPrint = reportService.processReport("EmpleadosActivosYUsuarios");
 
-            JRXlsxExporter exporter = new JRXlsxExporter();
+            exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
 
@@ -49,4 +50,78 @@ public class ReportController {
         }
     }
 
+    @GetMapping(value = "/rptEmpleadosSinProyectoExcel")
+    public void rptEmpleadosSinProyecto(HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=EmpleadosSinProyectos.xlsx");
+            response.setContentType("application/octet-stream");
+
+            JasperPrint jasperPrint = reportService.processReport("EmpleadosSinProyectos");
+
+            exporter = new JRXlsxExporter();
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+
+            SimpleXlsxReportConfiguration configurationReport = new SimpleXlsxReportConfiguration();
+            configurationReport.setSheetNames(new String[] {"Personas"});
+            configurationReport.setOnePagePerSheet(true);
+            configurationReport.setDetectCellType(true);
+
+            exporter.setConfiguration(configurationReport);
+            exporter.exportReport();
+
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "/rptPersonasInactivasExcel")
+    public void rptPersonasInactivas(HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=EmpleadosInactivos.xlsx");
+            response.setContentType("application/octet-stream");
+
+            JasperPrint jasperPrint = reportService.processReport("EmpleadosInactivosYUsuarios");
+
+            exporter = new JRXlsxExporter();
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+
+            SimpleXlsxReportConfiguration configurationReport = new SimpleXlsxReportConfiguration();
+            configurationReport.setSheetNames(new String[] {"Personas"});
+            configurationReport.setOnePagePerSheet(true);
+            configurationReport.setDetectCellType(true);
+
+            exporter.setConfiguration(configurationReport);
+            exporter.exportReport();
+
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "/rptClientesInactivasExcel")
+    public void rptClientesInactivas(HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=ClientesInactivos.xlsx");
+            response.setContentType("application/octet-stream");
+
+            JasperPrint jasperPrint = reportService.processReport("ClientesInactivos");
+
+            exporter = new JRXlsxExporter();
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+
+            SimpleXlsxReportConfiguration configurationReport = new SimpleXlsxReportConfiguration();
+            configurationReport.setSheetNames(new String[] {"Personas"});
+            configurationReport.setOnePagePerSheet(true);
+            configurationReport.setDetectCellType(true);
+
+            exporter.setConfiguration(configurationReport);
+            exporter.exportReport();
+
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

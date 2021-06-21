@@ -63,6 +63,8 @@ public class PersonaEntidad implements Serializable {
     @Column(name = "SNPERSONA_ACTIVA")
     private String snPersonaActiva;
 
+    private String motivoEliminacion;
+
     public int getEdad() {
         return Period.between(fechaNacimiento.toLocalDate(), LocalDate.now()).getYears();
     }

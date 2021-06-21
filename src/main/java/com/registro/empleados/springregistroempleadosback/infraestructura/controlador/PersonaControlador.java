@@ -58,9 +58,9 @@ public class PersonaControlador {
                 .body(manejadorActualizarPersona.ejecutar(comandoPersona));
     }
 
-    @DeleteMapping(value = "/{idPersona}")
-    public void eliminarPersona(@PathVariable("idPersona") Long idPersona) {
-        manejadorEliminarPersona.ejecutar(idPersona);
+    @DeleteMapping(value = "/{idPersona}/motivo/{motivo}")
+    public void eliminarPersona(@PathVariable("idPersona") Long idPersona, @PathVariable("motivo") String motivo) {
+        manejadorEliminarPersona.ejecutar(idPersona, motivo);
     }
 
     @GetMapping(value = "/consultarPersonasContratadasPorMes")

@@ -12,7 +12,7 @@ public class ManejadorEliminarPersona {
     private final PersonaServicio personaServicio;
 
     @Transactional
-    public void ejecutar(Long idPersona) {
-        personaServicio.eliminarPersona(idPersona);
+    public void ejecutar(Long idPersona, String motivo) {
+        personaServicio.eliminarPersona(idPersona, motivo);
     }
 }

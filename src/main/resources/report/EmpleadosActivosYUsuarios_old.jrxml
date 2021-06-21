@@ -80,13 +80,7 @@ ORDER BY PE.FECHA_CREACION DESC]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
-		<band height="555" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<image>
-				<reportElement x="0" y="0" width="1190" height="555" uuid="42ad1859-b7c5-4c32-adb9-759ce0fe959f"/>
-				<imageExpression><![CDATA["C:/Users/felix/Downloads/imageedit_2_3739768587.png"]]></imageExpression>
-			</image>
-		</band>
+		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="30" splitType="Stretch">
